@@ -1,4 +1,5 @@
 import modularization.libraryGradle
+import modularization.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -18,6 +19,7 @@ class FeatureConvention : Plugin<Project> {
 
     private fun Project.applyPlugins() {
         pluginManager.apply {
+            apply(libs.findPlugin("compose.compiler").get().get().pluginId)
             apply("convention.android.library")
             apply("convention.android.library.compose")
             apply("convention.android.hilt")
