@@ -9,5 +9,5 @@ android {
 }
 
 dependencies {
-    implementation(":domain")
+    implementation(project(":domain"))
 }
