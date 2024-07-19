@@ -1,6 +1,5 @@
 package com.divar.secure_shared_pref
 
-object SharedConstant {
+object SharedPrefConstant {
     const val TOKEN = "token"
-
 }
