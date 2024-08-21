@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class DataResult<T> {
     @Serializable
-    data class Success<T>(val data: T, val message: String) : DataResult<T>()
+    data class Success<T>(val data: T, val message: String = "") : DataResult<T>()
 
     @Serializable
     data class Failure<T>(val apiError: ApiError) : DataResult<T>()

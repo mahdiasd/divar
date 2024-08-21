@@ -18,6 +18,10 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent> : ViewModel() {
     abstract fun createInitialState(): State
 
     @Stable
+    abstract fun onTriggerEvent(event: Event)
+
+
+    @Stable
     private val _uiState: MutableStateFlow<State> = MutableStateFlow(initialState)
 
     @Stable
@@ -33,4 +37,5 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent> : ViewModel() {
         val newState = currentState.reduce()
         _uiState.value = newState
     }
+
 }

@@ -11,7 +11,7 @@ import retrofit2.HttpException
 
 suspend fun <T> safeCall(execute: suspend () -> SuccessResponse<T>): DataResult<T> {
     return try {
-        val response = execute()
+        val response = execute.invoke()
         if (response.status == Status.Success) {
             DataResult.Success(response.data!!, response.message)
         } else {
