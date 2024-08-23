@@ -17,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -28,6 +29,7 @@ import com.divar.domain.model.Category
 import com.divar.ui.R
 import com.divar.ui.core.list.SwipeList
 import com.divar.ui.core.text.TitleMediumText
+import com.divar.ui.core.ui_message.UiMessageScreen
 import com.divar.ui.extension.baseModifier
 import com.divar.ui.them.AppTheme
 import kotlinx.collections.immutable.ImmutableList
@@ -38,6 +40,7 @@ fun CategoryScreen(
     vm: CategoryViewModel = hiltViewModel(),
 ) {
     val uiState = vm.uiState.collectAsState().value
+
     CategoryScreenContent(
         modifier = Modifier
             .baseModifier(0.dp),
@@ -46,6 +49,11 @@ fun CategoryScreen(
         isLoadMore = uiState.isLoadMore,
         categoryTitle = uiState.categoryTitle,
         onAction = { vm.onTriggerEvent(it) }
+    )
+
+    UiMessageScreen(
+        modifier = Modifier.background(Color.Black),
+        shared = vm.uiMessage
     )
 }
 

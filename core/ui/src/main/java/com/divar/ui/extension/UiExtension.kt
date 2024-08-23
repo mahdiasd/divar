@@ -1,6 +1,8 @@
 package com.divar.ui.extension
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -67,4 +69,14 @@ fun Modifier.baseModifier(padding: Dp = 16.dp): Modifier = composed {
         .statusBarsPadding()
         .navigationBarsPadding()
         .padding(padding)
+}
+
+
+fun Modifier.animateClickable(onClick: (() -> Unit)): Modifier = composed {
+    this
+        .clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+            onClick = onClick
+        )
 }

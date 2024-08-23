@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.divar.domain.model.onFailure
 import com.divar.domain.model.onSuccess
 import com.divar.domain.usecase.GetCategoriesUseCase
+import com.divar.ui.model.UiMessage
 import com.divar.ui.viewmodel.BaseViewModel
 import com.divar.utils.dLog
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,11 +29,16 @@ class CategoryViewModel @Inject constructor(
             getCategoriesUseCase.invoke().collect {
                 it.onSuccess {
                     setState {
-                        currentState.copy(categories = it.toImmutableList(), isRefreshing = false)
+                        currentState.copy(
+                            isRefreshing = false,
+                            categories = it.toImmutableList(),
+                        )
                     }
                     handleShowingCategory()
-                }.onFailure {
-                    it.dLog("")
+                }.onFailure { apiError ->
+                    setState { copy(isRefreshing = false) }
+                    setUiMessage(UiMessage(stringValue = apiError.message))
+                    apiError.dLog("")
                 }
             }
         }

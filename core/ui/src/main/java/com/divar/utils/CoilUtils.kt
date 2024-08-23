@@ -3,6 +3,7 @@ package com.divar.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
@@ -68,6 +69,21 @@ fun defaultCoil(
         .listener(onError = { request, result ->
             result.throwable.message.dLog("")
         })
+        .size(coil.size.Size.ORIGINAL)
+        .crossfade(true)
+        .build()
+}
+
+@Composable
+fun svgCoil(
+    data: String,
+): ImageRequest {
+    return ImageRequest.Builder(LocalContext.current)
+        .data(data)
+        .listener(onError = { request, result ->
+            result.throwable.message.dLog("")
+        })
+        .decoderFactory(SvgDecoder.Factory())
         .size(coil.size.Size.ORIGINAL)
         .crossfade(true)
         .build()
