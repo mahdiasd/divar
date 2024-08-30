@@ -11,7 +11,8 @@ import org.junit.jupiter.api.Test
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
+    fun toPriceUnitTest() {
         assertEquals(4, 2 + 2)
+
     }
 }

@@ -18,7 +18,11 @@ import com.divar.ui.them.AppTheme
 @Composable
 private fun Prev() {
     AppTheme {
-        Column(modifier = Modifier.fillMaxWidth().background(AppTheme.colors.backgroundColor)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colors.backgroundColor)
+        ) {
             BodyLargeText(text = "this is BodyLargeText preview")
             BodyMediumText(text = "this is BodyMediumText preview")
         }
@@ -31,9 +35,15 @@ fun BodyLargeText(
     text: String,
     textStyle: TextStyle = AppTheme.typography.bodyLarge,
     textAlign: TextAlign = TextAlign.Start,
-    color: Color = AppTheme.colors.textColor
+    color: Color = AppTheme.colors.textColor,
+    minLines: Int = 1
 ) {
-    Text(modifier = modifier, text = text, style = textStyle.copy(textAlign = textAlign, color = color))
+    Text(
+        modifier = modifier,
+        text = text,
+        style = textStyle.copy(textAlign = textAlign, color = color),
+        minLines = minLines
+    )
 }
 
 @Composable
