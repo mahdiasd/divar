@@ -22,7 +22,6 @@ fun coilCircle(data: Any): ImageRequest {
 fun coilRounded(data: Any, radiusInDp: Float): ImageRequest {
     return ImageRequest.Builder(LocalContext.current)
         .data(data)
-        .size(coil.size.Size.ORIGINAL)
         .crossfade(true)
         .listener(
             onError = { _, throwable ->

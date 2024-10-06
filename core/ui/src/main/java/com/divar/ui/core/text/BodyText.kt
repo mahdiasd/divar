@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.divar.ui.them.AppTheme
 
@@ -36,13 +37,17 @@ fun BodyLargeText(
     textStyle: TextStyle = AppTheme.typography.bodyLarge,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = AppTheme.colors.textColor,
-    minLines: Int = 1
+    minLines: Int = 1,
+    maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Clip,
 ) {
     Text(
         modifier = modifier,
         text = text,
         style = textStyle.copy(textAlign = textAlign, color = color),
-        minLines = minLines
+        minLines = minLines,
+        maxLines = maxLines,
+        overflow = overflow
     )
 }
 

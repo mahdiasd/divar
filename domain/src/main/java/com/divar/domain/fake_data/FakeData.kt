@@ -2,6 +2,7 @@ package com.divar.domain.fake_data
 
 import com.divar.domain.model.ads.AdsSummary
 import com.divar.domain.model.category.Category
+import com.divar.domain.model.image.Image
 import com.divar.domain.model.neighborhood.Neighborhood
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -30,26 +31,36 @@ object FakeData {
                 children = listOf()
             ),
             Category(
+                name = "وسایل نقلیه",
+                id = 3122,
+                icon = "",
+                children = listOf()
+            ),
+            Category(
                 name = "خودرو",
                 id = 3122,
                 icon = "",
                 children = listOf()
-            ),   Category(
+            ),
+            Category(
                 name = "خودرو",
                 id = 3122,
                 icon = "",
                 children = listOf()
-            ),   Category(
+            ),
+            Category(
                 name = "خودرو",
                 id = 3122,
                 icon = "",
                 children = listOf()
-            ),   Category(
+            ),
+            Category(
                 name = "خودرو",
                 id = 3122,
                 icon = "",
                 children = listOf()
-            ),   Category(
+            ),
+            Category(
                 name = "خودرو",
                 id = 3122,
                 icon = "",
@@ -84,37 +95,38 @@ object FakeData {
                 id = 3122,
                 icon = "",
                 children = listOf()
-            ), Category(
+            ),
+            Category(
                 name = "خودرو",
                 id = 3122,
                 icon = "",
                 children = listOf()
-            ), Category(
+            ),
+            Category(
                 name = "خودرو",
                 id = 3122,
                 icon = "",
                 children = listOf()
-            ), Category(
+            ),
+            Category(
                 name = "خودرو",
                 id = 3122,
                 icon = "",
                 children = listOf()
-            ), Category(
+            ),
+            Category(
                 name = "خودرو",
                 id = 3122,
                 icon = "",
                 children = listOf()
-            ), Category(
+            ),
+            Category(
                 name = "خودرو",
                 id = 3122,
                 icon = "",
                 children = listOf()
-            ), Category(
-                name = "خودرو",
-                id = 3122,
-                icon = "",
-                children = listOf()
-            ), Category(
+            ),
+            Category(
                 name = "خودرو",
                 id = 3122,
                 icon = "",
@@ -142,7 +154,7 @@ object FakeData {
                 title = "تانکر آبرسانی و آبرسانی حمل آب شرب و غیر شرب",
                 price = "1000000",
                 neighborhood = Neighborhood(id = 73, name = "بلوار کشاورز"),
-                previewImage = null,
+                previewImage = Image("https://www.jowhareh.com/images/Jowhareh/galleries_5/large_2fba8ccf-7408-48a4-a4d3-ce2e252ce39b.webp"),
                 createAt = "2023-12-30T11:37:56Z"
             ),
             AdsSummary(

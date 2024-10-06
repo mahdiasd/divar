@@ -28,6 +28,7 @@ internal fun Project.composeGradleExtension(
             add("implementation", libs.findLibrary("constraintlayout.compose").get())
             add("implementation", libs.findLibrary("accompanist.swiperefresh").get())
             add("implementation", libs.findLibrary("coil.svg").get())
+            add("implementation", libs.findLibrary("androidx.material.icons.extended").get())
 
             add("debugImplementation", libs.findLibrary("androidx.ui.tooling").get())
             add("debugImplementation", libs.findLibrary("androidx.ui.tooling.preview").get())

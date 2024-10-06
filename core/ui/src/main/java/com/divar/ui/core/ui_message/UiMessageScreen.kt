@@ -2,7 +2,9 @@ package com.divar.ui.core.ui_message
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -50,6 +52,9 @@ fun UiMessageScreen(
     AnimatedVisibility(visible = uiMessage != null) {
         MessageBox(
             modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp)
+                .statusBarsPadding()
                 .background(
                     color = when (uiMessage?.status) {
                         MessageStatus.Success -> AppTheme.colors.successColor

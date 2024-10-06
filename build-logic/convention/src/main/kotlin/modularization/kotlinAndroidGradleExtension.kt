@@ -19,6 +19,7 @@ internal fun Project.kotlinAndroidGradleExtension(
         defaultConfig {
             minSdk = 21
             version = 1
+            buildConfigField("String", "BaseUrl", properties["BaseUrl"].toString())
         }
 
         buildFeatures {

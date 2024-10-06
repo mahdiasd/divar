@@ -17,6 +17,7 @@ androidDesugarJdkLibs = "2.0.4"
 kotlinx-collections-immutable = "0.3.5"
 dagger = "2.51.1"
 hilt-navigation-compose = "1.2.0"
+materialIconsExtended = "1.7.0-rc01"
 room = "2.6.1"
 kotlinxSerializationJson = "1.6.2"
 retrofitKotlinxSerializationJson = "1.0.0"
@@ -29,10 +30,12 @@ ksp = "2.0.0-1.0.21"
 retrofit = "2.9.0"
 okhttp = "4.12.0"
 security-crypto = "1.1.0-alpha06"
+junitJupiter = "5.10.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil-svg" }
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
@@ -87,6 +90,7 @@ junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
 
 
 [plugins]
