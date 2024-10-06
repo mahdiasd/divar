@@ -6,7 +6,6 @@ plugins {
 
 android {
     namespace = "com.divar.network"
-
 }
 
 dependencies {

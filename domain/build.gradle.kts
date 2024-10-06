@@ -6,8 +6,10 @@ plugins {
 
 android {
     namespace = "com.divar.domain"
+
 }
 
 dependencies {
 
+    testImplementation(libs.junit.jupiter)
 }

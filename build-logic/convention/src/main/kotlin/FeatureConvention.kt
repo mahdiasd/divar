@@ -30,7 +30,9 @@ class FeatureConvention : Plugin<Project> {
 
     private fun Project.applyDependencies() {
         dependencies {
-            // TODO: After adding modules, update this section to include [list the specific modules needed here]
+            add("implementation", project(":core:utils"))
+            add("implementation", project(":core:ui"))
+            add("implementation", project(":domain"))
         }
     }
 }

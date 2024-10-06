@@ -13,6 +13,7 @@ import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -120,8 +121,8 @@ fun AppTextField(
     ),
     hintTextStyle: TextStyle = AppTheme.typography.bodyMedium.copy(color = AppTheme.colors.hintColor),
     readOnly: Boolean = false,
-    enabled: Boolean = readOnly,
-    icon: Int,
+    enabled: Boolean = !readOnly,
+    icon: ImageVector,
     iconModifier: Modifier = Modifier.size(16.dp),
     iconTint: Color = AppTheme.colors.hintColor,
     onClick: (() -> Unit)? = null
@@ -142,7 +143,7 @@ fun AppTextField(
         trailingIcon = {
             Icon(
                 modifier = iconModifier,
-                painter = painterResource(id = icon),
+                imageVector = icon,
                 contentDescription = "",
                 tint = iconTint
             )

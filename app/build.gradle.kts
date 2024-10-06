@@ -1,5 +1,6 @@
 plugins {
     id("convention.android.application")
+    id("convention.android.hilt")
     id("convention.android.application.compose")
 }
 
@@ -13,7 +14,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "BaseUrl", properties["BaseUrl"].toString())
     }
+
 
     buildTypes {
         release {
@@ -31,4 +34,7 @@ dependencies {
     implementation(project(":core:secure-shared-pref"))
     implementation(project(":core:database"))
     implementation(project(":core:utils"))
+
+    implementation(project(":feature:category"))
+    implementation(project(":feature:home"))
 }
