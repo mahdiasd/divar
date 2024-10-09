@@ -10,5 +10,7 @@ android {
 
 dependencies {
     implementation(project(":core:network"))
+    implementation(project(":core:secure-shared-pref"))
+    implementation(project(":core:utils"))
     implementation(project(":domain"))
 }

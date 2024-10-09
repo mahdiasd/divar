@@ -1,7 +1,7 @@
 package com.divar.domain.model.ads
 
 import com.divar.domain.model.image.Image
-import com.divar.domain.model.neighborhood.Neighborhood
+import com.divar.domain.model.location.Neighborhood
 
 data class AdsSummary(
     val id: Long,

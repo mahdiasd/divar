@@ -3,7 +3,8 @@ package com.divar.domain.fake_data
 import com.divar.domain.model.ads.AdsSummary
 import com.divar.domain.model.category.Category
 import com.divar.domain.model.image.Image
-import com.divar.domain.model.neighborhood.Neighborhood
+import com.divar.domain.model.location.City
+import com.divar.domain.model.location.Neighborhood
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -189,6 +190,15 @@ object FakeData {
                 previewImage = null,
                 createAt = "2024-07-22T18:16:26Z"
             )
+        )
+    }
+
+    fun provideCities(): List<City> {
+        return listOf(
+            City(id = 1, name = "تهران", neighborhoods = listOf()),
+            City(id = 2, name = "مشهد", neighborhoods = listOf()),
+            City(id = 3, name = "رشت", neighborhoods = listOf()),
+            City(id = 4, name = "شیراز", neighborhoods = listOf())
         )
     }
 

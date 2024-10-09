@@ -6,6 +6,7 @@ import com.divar.domain.model.ServerError
 import com.divar.network.model.FailureResponse
 import com.divar.network.model.Status
 import com.divar.network.model.SuccessResponse
+import com.divar.utils.dLog
 import kotlinx.serialization.json.Json
 import retrofit2.HttpException
 
@@ -18,6 +19,7 @@ suspend fun <T> safeCall(execute: suspend () -> SuccessResponse<T>): DataResult<
             DataResult.Failure(ServerError(504))
         }
     } catch (e: Throwable) {
+        e.message.dLog()
         DataResult.Failure(getApiError(e))
     }
 }

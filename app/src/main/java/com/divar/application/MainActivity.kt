@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.divar.category.CategoryScreen
 import com.divar.home.HomeScreen
+import com.divar.location.LocationScreen
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.core.text.LabelMediumText
 import com.divar.ui.core.text.TitleLargeText
@@ -45,7 +46,9 @@ class MainActivity : ComponentActivity() {
             }
             AppTheme {
 //                CategoryScreen()
-                HomeScreen()
+//                HomeScreen()
+                LocationScreen()
+
             }
         }
     }
