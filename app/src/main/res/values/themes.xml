@@ -2,4 +2,12 @@
 <resources>
 
     <style name="Theme.Divar" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/divar_logo</item>
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="postSplashScreenTheme">@style/Theme.Divar</item>
+    </style>
+
+
 </resources>
