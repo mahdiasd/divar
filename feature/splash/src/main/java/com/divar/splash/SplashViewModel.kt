@@ -7,7 +7,6 @@ import com.divar.domain.model.onSuccess
 import com.divar.domain.usecase.location.GetUserCityUseCase
 import com.divar.ui.model.UiMessage
 import com.divar.ui.viewmodel.BaseViewModel
-import com.divar.utils.dLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,10 +18,10 @@ class SplashViewModel @Inject constructor(
 ) : BaseViewModel<SplashUiState, SplashUiEvent>() {
 
     init {
-        getUserCity()
+        isUserSelectedCity()
     }
 
-    private fun getUserCity() {
+    private fun isUserSelectedCity() {
         viewModelScope.launch {
             getUserCityUseCase.invoke().collect {
                 it.onSuccess {
@@ -31,7 +30,6 @@ class SplashViewModel @Inject constructor(
                     setState { copy(userIsSelectedCity = false) }
                     setUiMessage(UiMessage(stringValue = apiError.message))
                 }
-                currentState.userIsSelectedCity.dLog("userIsSelectedCity: ")
             }
         }
     }

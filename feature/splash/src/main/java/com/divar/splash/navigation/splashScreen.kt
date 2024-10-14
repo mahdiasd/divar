@@ -9,12 +9,11 @@ import com.divar.splash.SplashScreen
 const val splashRoute = "splash_route"
 
 fun NavGraphBuilder.splashScreen(
-    splash: SplashScreen,
 ) {
     composable(
         route = splashRoute,
     ) {
-        SplashScreen(splash)
+        SplashScreen()
     }
 }
 
