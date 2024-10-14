@@ -1,5 +1,8 @@
 package com.divar.ui.extension
 
+import android.content.Context
+import android.content.ContextWrapper
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -87,4 +90,12 @@ fun String.toPrice(): String {
     this.toIntOrNull()?.let { number ->
         return String.format(Locale.getDefault(), "%,d", number)
     } ?: return ""
+}
+
+fun Context.getActivity(): ComponentActivity? {
+    return when (this) {
+        is ComponentActivity -> this
+        is ContextWrapper -> baseContext.getActivity()
+        else -> null
+    }
 }

@@ -17,7 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.divar.splash.SplashScreen
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.core.text.LabelMediumText
@@ -30,7 +29,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             if (isSystemInDarkTheme()) {
@@ -48,7 +46,7 @@ class MainActivity : ComponentActivity() {
 //                CategoryScreen()
 //                HomeScreen()
 //                LocationScreen()
-                SplashScreen(splashScreen)
+                SplashScreen()
             }
         }
     }
