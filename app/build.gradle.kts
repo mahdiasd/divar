@@ -39,4 +39,6 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:location"))
     implementation(project(":feature:splash"))
+    implementation(project(":feature:main"))
+    implementation(libs.androidx.core.splashscreen)
 }

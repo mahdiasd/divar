@@ -1,31 +1,20 @@
 package com.divar.location
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,6 +22,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,7 +40,6 @@ import com.divar.location.component.CityItem
 import com.divar.ui.R
 import com.divar.ui.core.input.AppTextField
 import com.divar.ui.core.list.SwipeList
-import com.divar.ui.core.text.BodyLargeText
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.core.ui_message.UiMessageScreen
 import com.divar.ui.extension.animateClickable
@@ -62,9 +51,15 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 fun LocationScreen(
     vm: LocationViewModel = hiltViewModel(),
+    onMoveToMain: () -> Unit
 ) {
     val uiState = vm.uiState.collectAsState().value
 
+    LaunchedEffect(key1 = uiState.cityIsSelected) {
+        if (uiState.cityIsSelected) {
+            onMoveToMain()
+        }
+    }
     LocationScreenContent(
         modifier = Modifier.baseModifier(padding = 0.dp),
         cities = uiState.cities,

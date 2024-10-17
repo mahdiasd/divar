@@ -17,6 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.divar.application.navigation.AppNavigation
 import com.divar.splash.SplashScreen
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.core.text.LabelMediumText
@@ -29,6 +31,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        /**
+         * This line is required before onCreate to ensure that
+         * applyPostSplashScreenTheme (in theme) functions correctly.
+         * https://stackoverflow.com/a/78445185/10180275
+         * */
+        installSplashScreen()
+
         super.onCreate(savedInstanceState)
         setContent {
             if (isSystemInDarkTheme()) {
@@ -43,10 +52,7 @@ class MainActivity : ComponentActivity() {
                 )
             }
             AppTheme {
-//                CategoryScreen()
-//                HomeScreen()
-//                LocationScreen()
-                SplashScreen()
+                AppNavigation()
             }
         }
     }

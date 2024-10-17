@@ -10,14 +10,17 @@ import com.divar.location.LocationScreen
 const val locationRoute = "location_route"
 
 fun NavGraphBuilder.locationScreen(
+    onMoveToMain : () -> Unit
 ) {
     composable(
         route = locationRoute,
     ) {
-        LocationScreen()
+        LocationScreen(
+            onMoveToMain = onMoveToMain
+        )
     }
 }
 
-fun NavController.navigateToLocation(id: Int) {
+fun NavController.navigateToLocation() {
     navigate(locationRoute)
 }

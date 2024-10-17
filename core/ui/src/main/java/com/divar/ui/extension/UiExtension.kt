@@ -22,6 +22,8 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.NavController
 import com.divar.ui.them.AppTheme
 import java.util.Locale
 
@@ -98,4 +100,10 @@ fun Context.getActivity(): ComponentActivity? {
         is ContextWrapper -> baseContext.getActivity()
         else -> null
     }
+}
+
+
+fun NavController.runWithLifecycleAware(block: NavController.() -> Unit) {
+    if (currentBackStackEntry?.getLifecycle()?.currentState == Lifecycle.State.RESUMED)
+        block()
 }

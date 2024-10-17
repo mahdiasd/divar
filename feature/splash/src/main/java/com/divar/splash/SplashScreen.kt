@@ -1,6 +1,7 @@
 package com.divar.splash
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -14,7 +15,9 @@ import com.divar.ui.extension.getActivity
 
 @Composable
 fun SplashScreen(
-    vm: SplashViewModel = hiltViewModel()
+    vm: SplashViewModel = hiltViewModel(),
+    onMoveToMain: () -> Unit,
+    onMoveToLocation: () -> Unit,
 ) {
     val uiState = vm.uiState.collectAsState().value
     LocalContext.current.getActivity()?.let {
@@ -23,6 +26,12 @@ fun SplashScreen(
             uiState.userIsSelectedCity == null
         }
     }
+
+    LaunchedEffect(key1 = uiState.userIsSelectedCity) {
+        if (uiState.userIsSelectedCity == true) onMoveToMain()
+        else if (uiState.userIsSelectedCity == false) onMoveToLocation()
+    }
+
     SplashScreenContent(Modifier.baseModifier())
 
     UiMessageScreen(shared = vm.uiMessage)
