@@ -8,4 +8,10 @@
     <string name="choose_your_city">شهر خود را انتخاب کنید</string>
     <string name="search_on_cities">جستجو در شهرها</string>
 
+    <string name="ads">آگهی ها</string>
+    <string name="category">دسته بندی</string>
+    <string name="create_ads">ثبت آگهی</string>
+    <string name="chat">چت</string>
+    <string name="my_divar">دیوار من</string>
+
 </resources>

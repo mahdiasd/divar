@@ -3,7 +3,7 @@ package com.divar.ui.them
 import androidx.compose.ui.graphics.Color
 
 /* ---------------- Light Colors -----------------*/
-val PrimaryColorLight = Color(0xFF1f41bb)
+val PrimaryColorLight = Color(0xFFA62626)
 val ItemColorLight = Color(0xFFfafafa)
 val IconColorLight = Color(0xFF18151F)
 val TextColorLight = Color(0xFF18151F)
@@ -17,7 +17,7 @@ val StatusBarLight = Color(0xFFEEEEEE)
 
 
 /* ---------------- Dark Colors -----------------*/
-val PrimaryColorDark = Color(0xFF2196F3)
+val PrimaryColorDark = Color(0xFFD14757)
 val ItemColorDark = Color(0xFF303030)
 val IconColorDark = Color(0xFFEEEDED)
 val TextColorDark = Color(0xFFFFFFFF)

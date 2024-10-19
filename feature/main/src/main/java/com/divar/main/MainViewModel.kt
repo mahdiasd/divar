@@ -13,6 +13,11 @@ class MainViewModel @Inject constructor(
     override fun createInitialState() = MainUiState()
 
     override fun onTriggerEvent(event: MainUiEvent) {
+        when (event) {
+            is MainUiEvent.OnChangeTab -> {
+                setState { copy(selectedIndex = event.index) }
+            }
+        }
     }
 
 }
