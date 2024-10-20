@@ -2,6 +2,7 @@ package com.divar.network.di
 
 import com.divar.network.api.ads.AdsSummaryApiService
 import com.divar.network.api.category.CategoryApiService
+import com.divar.network.api.category.CategoryOfAdsApiService
 import com.divar.network.api.location.LocationApiService
 import dagger.Module
 import dagger.Provides
@@ -30,5 +31,11 @@ object ProvideApiServices {
     @Provides
     fun provideLocationApiService(retrofit: Retrofit): LocationApiService {
         return retrofit.create(LocationApiService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCategoryOfAdsApiService(retrofit: Retrofit): CategoryOfAdsApiService {
+        return retrofit.create(CategoryOfAdsApiService::class.java)
     }
 }

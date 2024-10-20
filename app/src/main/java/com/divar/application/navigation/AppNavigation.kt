@@ -9,6 +9,7 @@ import com.divar.location.navigation.navigateToLocation
 import com.divar.main.navigation.mainRoute
 import com.divar.main.navigation.mainScreen
 import com.divar.main.navigation.navigateToMain
+import com.divar.search.navigation.searchScreen
 import com.divar.splash.navigation.splashRoute
 import com.divar.splash.navigation.splashScreen
 import com.divar.ui.extension.runWithLifecycleAware
@@ -64,6 +65,9 @@ fun AppNavigation() {
                 rootNavController.runWithLifecycleAware { rootNavController.navigateToMain() }
             }
         )
+        searchScreen(onSelected = {
+
+        })
     }
 
 }

@@ -3,6 +3,7 @@
     <string name="ads_category">دسته بندی آگهی ها</string>
     <string name="as_new">در حد نو</string>
     <string name="search_on_all_ads">جستجو در همه آگهی ها</string>
+    <string name="search">جستجو</string>
     <string name="failed_screen_message">خطایی پیش اومده!</string>
     <string name="search_on_categories">جستجو در دسته ها…</string>
     <string name="choose_your_city">شهر خود را انتخاب کنید</string>

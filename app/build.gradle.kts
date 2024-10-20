@@ -42,6 +42,7 @@ dependencies {
     implementation(project(":feature:main"))
     implementation(project(":feature:chat"))
     implementation(project(":feature:profile"))
+    implementation(project(":feature:search"))
 
     implementation(libs.androidx.core.splashscreen)
 }
