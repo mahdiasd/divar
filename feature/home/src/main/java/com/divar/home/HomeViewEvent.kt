@@ -3,6 +3,7 @@ package com.divar.home
 import androidx.compose.runtime.Stable
 import com.divar.domain.model.ads.AdsSummary
 import com.divar.domain.model.category.Category
+import com.divar.domain.model.location.City
 import com.divar.domain.model.paginate.Paging
 import com.divar.ui.extension.immutableListOf
 import com.divar.ui.viewmodel.UiEvent
@@ -20,16 +21,20 @@ data class HomeUiState(
     val ads: Paging<ImmutableList<AdsSummary>>? = Paging(content = immutableListOf()),
     val page: Int = 0,
     val emptyCategoryCount: Int = 0,
-    val categorySearchText: String = ""
+    val categorySearchText: String = "",
+    val userCity: City? = null,
+    val selectedCategory: Category? = null
 ) : UiState
 
 sealed class HomeUiEvent : UiEvent {
     data object OnRefreshing : HomeUiEvent()
     data object OnLoadMore : HomeUiEvent()
     data object OnClearCategory : HomeUiEvent()
+
     data object OnRemoveSelectedCategory : HomeUiEvent()
     data class OnSelectedCategory(val category: Category) : HomeUiEvent()
     data class OnCategorySearchChange(val text: String) : HomeUiEvent()
+    data object OnClearSelectedCategory : HomeUiEvent()
 }
 
 typealias OnAction = (HomeUiEvent) -> Unit

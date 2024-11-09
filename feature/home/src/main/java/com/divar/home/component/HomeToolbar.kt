@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.divar.home.R
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.core.text.LabelSmallText
+import com.divar.ui.extension.animateClickable
 import com.divar.ui.extension.baseModifier
 import com.divar.ui.them.AppTheme
 
@@ -54,8 +55,10 @@ fun HomeToolbar(
         )
 
         LabelSmallText(
-            modifier = Modifier.padding(top = 4.dp),
-            text = "مشهد"
+            modifier = Modifier
+                .padding(top = 4.dp)
+                .animateClickable(onCity),
+            text = cityName
         )
 
         VerticalDivider(
@@ -75,6 +78,7 @@ fun HomeToolbar(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
+                .animateClickable(onSearch)
                 .padding(top = 4.dp),
             text = stringResource(id = com.divar.ui.R.string.search_on_all_ads),
             color = AppTheme.colors.hintColor

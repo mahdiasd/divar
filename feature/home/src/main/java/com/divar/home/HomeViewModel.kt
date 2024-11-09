@@ -3,11 +3,13 @@ package com.divar.home
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.divar.domain.model.category.Category
+import com.divar.domain.model.filter.AdsFilter
 import com.divar.domain.model.onFailure
 import com.divar.domain.model.onSuccess
 import com.divar.domain.model.paginate.addMore
 import com.divar.domain.usecase.ads.GetAdsSummaryUseCase
 import com.divar.domain.usecase.category.GetCategoriesUseCase
+import com.divar.domain.usecase.location.GetUserCityUseCase
 import com.divar.ui.extension.immutableListOf
 import com.divar.ui.model.UiMessage
 import com.divar.ui.viewmodel.BaseViewModel
@@ -22,12 +24,27 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle?,
     private val getAdsSummaryUseCase: GetAdsSummaryUseCase,
-    private val getCategoriesUseCase: GetCategoriesUseCase
+    private val getCategoriesUseCase: GetCategoriesUseCase,
+    private val getUserCityUseCase: GetUserCityUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEvent>() {
 
     init {
-        getCategories()
-        getAds()
+        getUserCity()
+    }
+
+    private fun getUserCity() {
+        viewModelScope.launch {
+            getUserCityUseCase.invoke().collect {
+                it.onSuccess {
+                    setState { copy(userCity = it) }
+                    getCategories()
+                    getAds()
+                }.onFailure { apiError ->
+                    setState { copy(isLoading = false) }
+                    setUiMessage(UiMessage(stringValue = apiError.message))
+                }
+            }
+        }
     }
 
     override fun createInitialState() = HomeUiState()
@@ -49,13 +66,17 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeUiEvent.OnSelectedCategory -> {
-                setState {
-                    copy(
-                        selectedCategories =
-                        selectedCategories?.toMutableList()?.apply { add(event.category) }?.toImmutableList()
-                            ?: listOf(event.category).toImmutableList(),
-                        showCategories = event.category.children.toImmutableList()
-                    )
+                if (event.category.children.isEmpty()) {
+                    setState { copy(selectedCategory = event.category) }
+                } else {
+                    setState {
+                        copy(
+                            selectedCategories =
+                            selectedCategories?.toMutableList()?.apply { add(event.category) }?.toImmutableList()
+                                ?: listOf(event.category).toImmutableList(),
+                            showCategories = event.category.children.toImmutableList()
+                        )
+                    }
                 }
             }
 
@@ -82,6 +103,10 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             }
+
+            HomeUiEvent.OnClearSelectedCategory -> {
+                setState { copy(selectedCategory = null) }
+            }
         }
     }
 
@@ -99,7 +124,6 @@ class HomeViewModel @Inject constructor(
 
         return temp.toImmutableList()
     }
-
 
     private fun getCategories() {
         viewModelScope.launch {
@@ -122,7 +146,11 @@ class HomeViewModel @Inject constructor(
         if (currentState.page > 0) setState { copy(isLoadMore = true) }
         else setState { copy(isLoading = true) }
         viewModelScope.launch {
-            getAdsSummaryUseCase.invoke(currentState.page).collect {
+            getAdsSummaryUseCase.invoke(
+                adsFilter = AdsFilter(),
+                cityId = currentState.userCity!!.id,
+                page = currentState.page
+            ).collect {
                 it.onSuccess { paging ->
                     if (paging.isFirst || currentState.ads?.content.isNullOrEmpty()) {
                         setState { copy(isLoading = false, isLoadMore = false, ads = paging) }

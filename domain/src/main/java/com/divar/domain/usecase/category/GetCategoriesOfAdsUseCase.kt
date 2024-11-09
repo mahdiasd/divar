@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetCategoriesOfAdsUseCase @Inject constructor(
     private val repo: CategoryOfAdsRepository
 ) {
-    suspend operator fun invoke(searchText: String): Flow<DataResult<List<CategoryOfAds>>> {
-        return repo.getCategoriesOfAds(searchText)
+    suspend operator fun invoke(searchText: String, cityId: Long): Flow<DataResult<List<CategoryOfAds>>> {
+        return repo.getCategoriesOfAds(searchText, cityId)
     }
 }

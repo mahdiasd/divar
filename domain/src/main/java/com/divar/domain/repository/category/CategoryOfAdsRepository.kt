@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface CategoryOfAdsRepository {
 
-    suspend fun getCategoriesOfAds(searchText: String): Flow<DataResult<List<CategoryOfAds>>>
+    suspend fun getCategoriesOfAds(searchText: String, cityId: Long): Flow<DataResult<List<CategoryOfAds>>>
 
 }

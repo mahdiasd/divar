@@ -1,16 +1,17 @@
 package com.divar.network.api.ads
 
 import com.divar.network.dto.ads.AdsSummaryResponse
+import com.divar.network.dto.ads.GetAdsRequest
 import com.divar.network.dto.paginate.PagingResponse
 import com.divar.network.model.SuccessResponse
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.Body
+import retrofit2.http.POST
 
 interface AdsSummaryApiService {
 
-    @GET("v1/ads")
+    @POST("v1/ads/filter")
     suspend fun getAdsSummary(
-        @Query("page") page: Int = 0
+        @Body getAdsRequest: GetAdsRequest
     ): SuccessResponse<PagingResponse<List<AdsSummaryResponse>>>
 
 }

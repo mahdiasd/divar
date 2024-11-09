@@ -14,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +32,7 @@ import com.divar.ui.R
 import com.divar.ui.core.list.SwipeList
 import com.divar.ui.core.text.TitleMediumText
 import com.divar.ui.core.ui_message.UiMessageScreen
+import com.divar.ui.extension.animateClickable
 import com.divar.ui.extension.baseModifier
 import com.divar.ui.them.AppTheme
 import kotlinx.collections.immutable.ImmutableList
@@ -39,8 +41,17 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 fun CategoryScreen(
     vm: CategoryViewModel = hiltViewModel(),
+    onCategory : (Category) -> Unit
 ) {
     val uiState = vm.uiState.collectAsState().value
+
+    LaunchedEffect(key1 = uiState.selectedCategory) {
+        if (uiState.selectedCategory != null) {
+            onCategory(uiState.selectedCategory)
+            vm.onTriggerEvent(CategoryUiEvent.OnClearSelectedCategory)
+        }
+    }
+
 
     CategoryScreenContent(
         modifier = Modifier
@@ -86,6 +97,7 @@ fun CategoryScreenContent(
                 Spacer(modifier = Modifier.width(12.dp))
                 Icon(
                     modifier = Modifier
+                        .animateClickable { onAction(CategoryUiEvent.OnBackInCategoryDialog) }
                         .size(18.dp),
                     painter = painterResource(id = R.drawable.ic_arrow_right),
                     contentDescription = "back icon",

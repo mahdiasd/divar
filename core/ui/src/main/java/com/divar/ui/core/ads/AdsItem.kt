@@ -27,9 +27,11 @@ import com.divar.ui.R
 import com.divar.ui.core.text.BodyLargeText
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.extension.animateClickable
+import com.divar.ui.extension.relativeTime
 import com.divar.ui.extension.toPrice
 import com.divar.ui.them.AppTheme
 import com.divar.utils.coilRounded
+import com.divar.utils.dLog
 
 
 @Composable
@@ -77,11 +79,12 @@ fun AdsItem(
             )
 
             BodyMediumText(
-                text = adsSummary.createAt ?: "",
+                text = adsSummary.createAt.relativeTime() ?: "",
                 color = AppTheme.colors.hintColor
             )
         }
 
+        adsSummary.previewImage?.path.dLog()
         adsSummary.previewImage?.path?.let {
             AsyncImage(
                 modifier = Modifier
@@ -119,8 +122,6 @@ fun AdsItem(
             )
         }
     }
-
-
 }
 
 

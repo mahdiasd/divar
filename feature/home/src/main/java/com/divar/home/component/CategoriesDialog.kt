@@ -1,6 +1,5 @@
 package com.divar.home.component
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,8 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
@@ -76,9 +73,8 @@ fun CategoriesDialog(
         sheetState = sheetState,
         containerColor = AppTheme.colors.backgroundColor,
         onDismissRequest = {
-            if (isFocused) {
-                isFocused = false
-            } else onAction(HomeUiEvent.OnClearCategory)
+            if (isFocused) isFocused = false
+            else onAction(HomeUiEvent.OnClearCategory)
         }) {
         CategoriesDialogContent(
             modifier = Modifier
@@ -103,7 +99,7 @@ fun CategoriesDialog(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CategoriesDialogContent(
+private fun CategoriesDialogContent(
     modifier: Modifier,
     showCategories: ImmutableList<Category>?,
     selectedCategories: ImmutableList<Category>,
@@ -191,9 +187,7 @@ fun CategoriesDialogContent(
                     CategoryDialogItem(
                         category = showCategories[index],
                         onClick = {
-                            if (showCategories[index].children.isNotEmpty()) {
-                                onAction(HomeUiEvent.OnSelectedCategory(category = showCategories[index]))
-                            }
+                            onAction(HomeUiEvent.OnSelectedCategory(category = showCategories[index]))
                         }
                     )
                 }
@@ -214,7 +208,6 @@ fun CategoriesDialogContent(
             }
         }
     }
-
 }
 
 @Composable

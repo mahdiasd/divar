@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.divar.domain.model.category.CategoryOfAds
 import com.divar.ui.core.text.BodyMediumText
+import com.divar.ui.extension.animateClickable
 import com.divar.ui.them.AppTheme
 
 @Composable
@@ -23,7 +24,9 @@ fun CategoryOfAdsItem(
     onClick: () -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .animateClickable(onClick),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically)
     ) {

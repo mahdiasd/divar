@@ -4,10 +4,12 @@ import com.divar.data.repository.ads.AdsSummaryRepositoryImpl
 import com.divar.data.repository.category.CategoryOfAdsRepositoryImpl
 import com.divar.data.repository.category.CategoryRepositoryImpl
 import com.divar.data.repository.location.LocationRepositoryImpl
+import com.divar.data.repository.parameter.ParameterRepositoryImpl
 import com.divar.domain.repository.ads.AdsSummaryRepository
 import com.divar.domain.repository.category.CategoryOfAdsRepository
 import com.divar.domain.repository.category.CategoryRepository
 import com.divar.domain.repository.location.LocationRepository
+import com.divar.domain.repository.parameter.ParameterRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -28,4 +30,7 @@ interface BindRepositories {
 
     @Binds
     fun bindCategoryOfAds(repo: CategoryOfAdsRepositoryImpl): CategoryOfAdsRepository
+
+    @Binds
+    fun bindParameterRepository(repo: ParameterRepositoryImpl): ParameterRepository
 }

@@ -10,17 +10,18 @@ import com.divar.search.SearchScreen
 
 const val searchRoute = "search_route/{searchText}"
 fun NavGraphBuilder.searchScreen(
-    onSelected: (CategoryOfAds) -> Unit
+    onSelected: (CategoryOfAds) -> Unit,
+    onBack : () -> Unit
 ) {
     composable(
         route = searchRoute,
         arguments = listOf(navArgument("searchText") { type = NavType.StringType })
     ) {
 
-        SearchScreen(onSelected = onSelected)
+        SearchScreen(onSelected = onSelected, onBack = onBack)
     }
 }
 
 fun NavController.navigateToSearch(searchText: String) {
-    navigate(searchRoute.replace("{searchText}", searchText))
+    navigate(searchRoute.replace("{searchText}", searchText.ifEmpty { "null" }))
 }

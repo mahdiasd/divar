@@ -16,8 +16,8 @@ data class CategoryUiState(
     val categories: ImmutableList<Category>? = immutableListOf(),
     val selectedCategories: ImmutableList<Category> = immutableListOf(),
     val showCategories: ImmutableList<Category>? = FakeData.provideCategories(),
-    val categoryTitle: String? = null
-
+    val categoryTitle: String? = null,
+    val selectedCategory: Category? = null
 ) : UiState
 
 
@@ -25,6 +25,9 @@ sealed class CategoryUiEvent : UiEvent {
     data class OnCategorySelected(val category: Category) : CategoryUiEvent()
     data object OnRefresh : CategoryUiEvent()
     data object OnLoadMore : CategoryUiEvent()
+    data object OnBackInCategoryDialog : CategoryUiEvent()
+    data object OnClearSelectedCategory : CategoryUiEvent()
+
 }
 
 typealias OnAction = (CategoryUiEvent) -> Unit

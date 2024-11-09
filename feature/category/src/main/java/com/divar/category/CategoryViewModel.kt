@@ -55,7 +55,16 @@ class CategoryViewModel @Inject constructor(
                     setState { copy(selectedCategories = newList.toImmutableList()) }
                     handleShowingCategory()
                 } else {
+                    setState { copy(selectedCategory = event.category) }
+                }
+            }
 
+            CategoryUiEvent.OnBackInCategoryDialog -> {
+                if (currentState.selectedCategories.isNotEmpty()) {
+                    val newList = currentState.selectedCategories.toMutableList()
+                    newList.removeLast()
+                    setState { copy(selectedCategories = newList.toImmutableList()) }
+                    handleShowingCategory()
                 }
             }
 
@@ -64,6 +73,10 @@ class CategoryViewModel @Inject constructor(
 
             CategoryUiEvent.OnRefresh -> {
                 getCategories()
+            }
+
+            CategoryUiEvent.OnClearSelectedCategory -> {
+                setState { copy(selectedCategory = null) }
             }
         }
     }
@@ -79,8 +92,8 @@ class CategoryViewModel @Inject constructor(
         } else {
             setState {
                 copy(
-                    showCategories = currentState.selectedCategories.first().children.toImmutableList(),
-                    categoryTitle = currentState.selectedCategories.first().name
+                    showCategories = currentState.selectedCategories.last().children.toImmutableList(),
+                    categoryTitle = currentState.selectedCategories.last().name
                 )
             }
         }

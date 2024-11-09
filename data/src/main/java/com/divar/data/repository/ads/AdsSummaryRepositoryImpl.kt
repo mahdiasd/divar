@@ -1,10 +1,12 @@
 package com.divar.data.repository.ads
 
 import com.divar.data.mapper.ads.toDomain
+import com.divar.data.mapper.ads.toRequest
 import com.divar.data.mapper.paginate.toDomain
 import com.divar.data.utils.safeCall
 import com.divar.domain.model.DataResult
 import com.divar.domain.model.ads.AdsSummary
+import com.divar.domain.model.filter.AdsFilter
 import com.divar.domain.model.onFailure
 import com.divar.domain.model.onSuccess
 import com.divar.domain.model.paginate.Paging
@@ -19,14 +21,25 @@ import javax.inject.Inject
 class AdsSummaryRepositoryImpl @Inject constructor(
     private val apiService: AdsSummaryApiService
 ) : AdsSummaryRepository {
-    override suspend fun getAdsSummary(page: Int): Flow<DataResult<Paging<ImmutableList<AdsSummary>>>> = flow {
-        safeCall { apiService.getAdsSummary(page = page) }
-            .onSuccess { data ->
-                val paging = data.toDomain(contentMapper = { it.map { adsSummaryResponse -> adsSummaryResponse.toDomain() }.toImmutableList() })
-                emit(DataResult.Success(paging))
-            }.onFailure {
-                emit(DataResult.Failure(it))
-            }
+
+    override suspend fun getAdsSummary(
+        adsFilter: AdsFilter,
+        page: Int,
+        cityId: Long,
+    ): Flow<DataResult<Paging<ImmutableList<AdsSummary>>>> = flow {
+        safeCall {
+            apiService.getAdsSummary(
+                adsFilter.toRequest(cityId = cityId, page = page)
+            )
+        }.onSuccess { data ->
+            val paging = data.toDomain(
+                contentMapper = { it.map { adsSummaryResponse -> adsSummaryResponse.toDomain() }.toImmutableList() }
+            )
+            emit(DataResult.Success(paging))
+        }.onFailure {
+            emit(DataResult.Failure(it))
+        }
     }
+
 
 }

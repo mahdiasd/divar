@@ -14,5 +14,10 @@
     <string name="create_ads">ثبت آگهی</string>
     <string name="chat">چت</string>
     <string name="my_divar">دیوار من</string>
+    <string name="please_choose_city">شهر شما انتخاب نشده است! لطفا مجددا وارد شوید.</string>
+    <string name="filters">فیلترها</string>
+    <string name="price">قیمت</string>
+    <string name="choose_neighborhood">انتخاب محل</string>
+    <string name="categories">دسته ها</string>
 
 </resources>

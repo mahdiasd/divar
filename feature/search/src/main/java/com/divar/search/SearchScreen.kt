@@ -40,7 +40,8 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 fun SearchScreen(
     vm: SearchViewModel = hiltViewModel(),
-    onSelected: (CategoryOfAds) -> Unit
+    onSelected: (CategoryOfAds) -> Unit,
+    onBack: () -> Unit
 ) {
     val uiState = vm.uiState.collectAsState().value
 
@@ -55,7 +56,7 @@ fun SearchScreen(
         onAction = { vm.onTriggerEvent(it) },
         list = uiState.categoriesOfAds,
         isLoading = uiState.isLoading,
-        onBack = {}
+        onBack = onBack
     )
 
     UiMessageScreen(shared = vm.uiMessage)

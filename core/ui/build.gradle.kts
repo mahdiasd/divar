@@ -14,4 +14,5 @@ android {
 dependencies {
     implementation(project(":core:utils"))
     implementation(project(":domain"))
+    testImplementation(libs.jupiter.junit.jupiter)
 }

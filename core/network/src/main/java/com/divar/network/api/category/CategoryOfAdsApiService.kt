@@ -10,7 +10,8 @@ interface CategoryOfAdsApiService {
 
     @GET("v1/ads/categories_of_ads")
     suspend fun getCategoriesOfAds(
-        @Query("searchText") searchText: String
+        @Query("searchText") searchText: String,
+        @Query("cityId") cityId: Long,
     ): SuccessResponse<List<CategoryOfAdsResponse>>
 
 }

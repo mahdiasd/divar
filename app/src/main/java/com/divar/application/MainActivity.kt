@@ -19,8 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.divar.application.navigation.AppNavigation
-import com.divar.search.SearchScreen
-import com.divar.splash.SplashScreen
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.core.text.LabelMediumText
 import com.divar.ui.core.text.TitleLargeText
@@ -53,8 +51,7 @@ class MainActivity : ComponentActivity() {
                 )
             }
             AppTheme {
-//                AppNavigation()
-                SearchScreen()
+                AppNavigation()
             }
         }
     }
