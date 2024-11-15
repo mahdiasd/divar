@@ -19,5 +19,13 @@
     <string name="price">قیمت</string>
     <string name="choose_neighborhood">انتخاب محل</string>
     <string name="categories">دسته ها</string>
+    <string name="remove_filters">حذف فیلترها</string>
+    <string name="select">انتخاب</string>
+    <string name="neighborhood">محل</string>
+    <string name="price_in_toman">قیمت (تومان)</string>
+
+    <string name="from">از</string>
+    <string name="to">تا</string>
+    <string name="save_filters">اعمال فیلترها</string>
 
 </resources>

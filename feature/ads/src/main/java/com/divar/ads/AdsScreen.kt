@@ -23,7 +23,8 @@ import com.divar.ui.core.ads.AdsItem
 import com.divar.ui.core.list.SwipeList
 import com.divar.ui.core.ui_message.UiMessageScreen
 import com.divar.ui.extension.baseModifier
-import com.divar.ui.model.FilterClickType
+import com.divar.domain.model.filter.FilterClickType
+import com.divar.ui.model.FromScreen
 import com.divar.ui.them.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 
@@ -32,8 +33,8 @@ fun AdsScreen(
     vm: AdsViewModel = hiltViewModel(),
     onCity: () -> Unit,
     onBack: () -> Unit,
-    onSearch: (AdsFilter?) -> Unit,
-    onFilter: (AdsFilter, FilterClickType) -> Unit
+    onSearch: (FromScreen) -> Unit,
+    onFilter: (FromScreen) -> Unit
 ) {
     val uiState = vm.uiState.collectAsState().value
 
@@ -44,15 +45,16 @@ fun AdsScreen(
     }
 
     LaunchedEffect(key1 = uiState.navigateToFilter) {
-        if (uiState.navigateToFilter != null) {
-
+        if (uiState.navigateToFilter != null && uiState.adsFilter != null) {
+            onFilter(uiState.fromScreen)
+            vm.onTriggerEvent(AdsUiEvent.OnNavigated)
         }
     }
 
     AdsScreenContent(
         modifier = Modifier.baseModifier(0.dp),
         cityName = uiState.userCity?.name ?: "",
-        onSearch = { onSearch(uiState.adsFilter) },
+        onSearch = { onSearch(uiState.fromScreen) },
         onCity = onCity,
         onBack = onBack,
         onAction = { vm.onTriggerEvent(it) },

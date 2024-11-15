@@ -84,7 +84,6 @@ fun AdsItem(
             )
         }
 
-        adsSummary.previewImage?.path.dLog()
         adsSummary.previewImage?.path?.let {
             AsyncImage(
                 modifier = Modifier

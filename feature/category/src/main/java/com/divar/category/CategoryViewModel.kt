@@ -2,9 +2,12 @@ package com.divar.category
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.divar.domain.model.category.Category
+import com.divar.domain.model.filter.AdsFilter
 import com.divar.domain.model.onFailure
 import com.divar.domain.model.onSuccess
 import com.divar.domain.usecase.category.GetCategoriesUseCase
+import com.divar.domain.usecase.filter.SaveFilterFromCategoryUseCase
 import com.divar.ui.model.UiMessage
 import com.divar.ui.viewmodel.BaseViewModel
 import com.divar.utils.dLog
@@ -16,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle?,
-    private val getCategoriesUseCase: GetCategoriesUseCase
+    private val getCategoriesUseCase: GetCategoriesUseCase,
+    private val saveFilterFromCategoryUseCase: SaveFilterFromCategoryUseCase
 ) : BaseViewModel<CategoryUiState, CategoryUiEvent>() {
 
     init {
@@ -38,7 +42,6 @@ class CategoryViewModel @Inject constructor(
                 }.onFailure { apiError ->
                     setState { copy(isRefreshing = false) }
                     setUiMessage(UiMessage(stringValue = apiError.message))
-                    apiError.dLog("")
                 }
             }
         }
@@ -56,6 +59,7 @@ class CategoryViewModel @Inject constructor(
                     handleShowingCategory()
                 } else {
                     setState { copy(selectedCategory = event.category) }
+                    saveFilter(event.category)
                 }
             }
 
@@ -78,6 +82,12 @@ class CategoryViewModel @Inject constructor(
             CategoryUiEvent.OnClearSelectedCategory -> {
                 setState { copy(selectedCategory = null) }
             }
+        }
+    }
+
+    private fun saveFilter(category: Category) {
+        viewModelScope.launch {
+            saveFilterFromCategoryUseCase.invoke(AdsFilter(category = category))
         }
     }
 

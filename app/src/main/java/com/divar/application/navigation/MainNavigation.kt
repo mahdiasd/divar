@@ -13,11 +13,14 @@ import com.divar.home.navigation.homeScreen
 import com.divar.main.navigation.mainRoute
 import com.divar.profile.navigation.profileScreen
 import com.divar.ui.extension.runWithLifecycleAware
+import com.divar.domain.model.filter.FilterClickType
+import com.divar.ui.model.FromScreen
 
 @Composable
 fun MainNavigation(
     navController: NavHostController,
-    onSearch: (AdsFilter?) -> Unit,
+    onSearch: (FromScreen) -> Unit,
+    onFilter: (FromScreen) -> Unit,
     onCity: () -> Unit
 ) {
     NavHost(
@@ -28,10 +31,10 @@ fun MainNavigation(
     {
         homeScreen(
             onCity = {},
-            onSearch = { onSearch(null) },
+            onSearch = { onSearch(FromScreen.Home) },
             onSelectedCategory = {
                 navController.runWithLifecycleAware {
-                    navigateToAds(adsFilter = AdsFilter(category = it))
+                    navigateToAds(FromScreen.Home)
                 }
             }
         )
@@ -39,7 +42,7 @@ fun MainNavigation(
         categoryScreen(
             onCategory = {
                 navController.runWithLifecycleAware {
-                    navigateToAds(adsFilter = AdsFilter(category = it))
+                    navigateToAds(FromScreen.Category)
                 }
             }
         )
@@ -52,9 +55,7 @@ fun MainNavigation(
             onBack = { navController.popBackStack() },
             onSearch = onSearch,
             onCity = onCity,
-            onFilter = { adsFilter, filterClickType ->
-
-            }
+            onFilter = onFilter
         )
     }
 }

@@ -9,6 +9,7 @@ import com.divar.domain.model.onSuccess
 import com.divar.domain.model.paginate.addMore
 import com.divar.domain.usecase.ads.GetAdsSummaryUseCase
 import com.divar.domain.usecase.category.GetCategoriesUseCase
+import com.divar.domain.usecase.filter.SaveFilterFromHomeUseCase
 import com.divar.domain.usecase.location.GetUserCityUseCase
 import com.divar.ui.extension.immutableListOf
 import com.divar.ui.model.UiMessage
@@ -25,7 +26,8 @@ class HomeViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle?,
     private val getAdsSummaryUseCase: GetAdsSummaryUseCase,
     private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val getUserCityUseCase: GetUserCityUseCase
+    private val getUserCityUseCase: GetUserCityUseCase,
+    private val saveFilterFromHomeUseCase: SaveFilterFromHomeUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEvent>() {
 
     init {
@@ -68,6 +70,7 @@ class HomeViewModel @Inject constructor(
             is HomeUiEvent.OnSelectedCategory -> {
                 if (event.category.children.isEmpty()) {
                     setState { copy(selectedCategory = event.category) }
+                    saveFilter(event.category)
                 } else {
                     setState {
                         copy(
@@ -107,6 +110,12 @@ class HomeViewModel @Inject constructor(
             HomeUiEvent.OnClearSelectedCategory -> {
                 setState { copy(selectedCategory = null) }
             }
+        }
+    }
+
+    private fun saveFilter(category: Category) {
+        viewModelScope.launch {
+            saveFilterFromHomeUseCase.invoke(AdsFilter(category = category))
         }
     }
 

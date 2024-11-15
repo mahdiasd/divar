@@ -1,4 +1,4 @@
-package com.divar.ui.model
+package com.divar.domain.model.filter
 
 import com.divar.domain.model.category.Category
 import com.divar.domain.model.parameter.Parameter
@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class FilterClickType {
+    @Serializable
     data object OnFilter : FilterClickType()
     data class OnCategory(val isRemove: Boolean) : FilterClickType()
     data class OnNeighborhood(val isRemove: Boolean) : FilterClickType()

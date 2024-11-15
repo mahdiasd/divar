@@ -6,23 +6,21 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.divar.ads.AdsScreen
-import com.divar.domain.model.category.CategoryOfAds
-import com.divar.domain.model.filter.AdsFilter
-import com.divar.ui.model.FilterClickType
+import com.divar.ui.model.FromScreen
+import com.divar.utils.dLog
 import com.divar.utils.toJson
-import java.net.URLEncoder
 
-const val adsRoute = "ads_route/{filter}"
+const val adsRoute = "ads_route/{fromScreen}"
 
 fun NavGraphBuilder.adsScreen(
     onCity: () -> Unit,
     onBack: () -> Unit,
-    onSearch: (AdsFilter?) -> Unit,
-    onFilter: (AdsFilter, FilterClickType) -> Unit
+    onSearch: (FromScreen) -> Unit,
+    onFilter: (FromScreen) -> Unit
 ) {
     composable(
         route = adsRoute,
-        arguments = listOf(navArgument("filter") { type = NavType.StringType })
+        arguments = listOf(navArgument("fromScreen") { type = NavType.StringType })
     ) {
         AdsScreen(
             onBack = onBack,
@@ -33,7 +31,7 @@ fun NavGraphBuilder.adsScreen(
     }
 }
 
-fun NavController.navigateToAds(adsFilter: AdsFilter) {
-    val encoder = URLEncoder.encode(adsFilter.toJson()!! , "UTF-8")
-    navigate(adsRoute.replace("{filter}", encoder))
+fun NavController.navigateToAds(fromScreen: FromScreen) {
+    adsRoute.replace("{fromScreen}", fromScreen.toJson()!!).dLog("**")
+    navigate(adsRoute.replace("{fromScreen}", fromScreen.toJson()!!))
 }

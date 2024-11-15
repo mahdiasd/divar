@@ -27,12 +27,14 @@ import com.divar.ads.AdsUiEvent
 import com.divar.ads.OnAction
 import com.divar.domain.fake_data.FakeData
 import com.divar.domain.model.filter.AdsFilter
+import com.divar.domain.model.filter.FilterClickType
 import com.divar.ui.R
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.core.text.LabelSmallText
 import com.divar.ui.extension.animateClickable
-import com.divar.ui.model.FilterClickType
+
 import com.divar.ui.them.AppTheme
+import com.divar.utils.dLog
 
 @Composable
 internal fun AdsToolbar(

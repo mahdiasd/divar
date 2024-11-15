@@ -164,7 +164,6 @@ private fun CategoriesDialogContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .onFocusChanged {
-                    it.isFocused.dLog("onFocusChanged")
                     onChangeFocused(it.isFocused)
                 },
             value = searchText,

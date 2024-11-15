@@ -7,6 +7,8 @@ import androidx.navigation.compose.rememberNavController
 import com.divar.ads.navigation.navigateToAds
 import com.divar.domain.model.category.Category
 import com.divar.domain.model.filter.AdsFilter
+import com.divar.filter.navigation.filterScreen
+import com.divar.filter.navigation.navigateToFilter
 import com.divar.location.navigation.locationScreen
 import com.divar.location.navigation.navigateToLocation
 import com.divar.main.navigation.mainScreen
@@ -17,6 +19,7 @@ import com.divar.splash.navigation.splashRoute
 import com.divar.splash.navigation.splashScreen
 import com.divar.ui.extension.immutableListOf
 import com.divar.ui.extension.runWithLifecycleAware
+import com.divar.ui.model.FromScreen
 
 @Composable
 fun AppNavigation() {
@@ -45,10 +48,13 @@ fun AppNavigation() {
                     navController = mainNavController,
                     onSearch = {
                         rootNavController.runWithLifecycleAware {
-                            navigateToSearch(it?.searchText ?: "")
+                            navigateToSearch(it)
                         }
                     },
-                    onCity = {}
+                    onCity = {},
+                    onFilter = {
+                        rootNavController.navigateToFilter(it)
+                    }
                 )
             },
             onChangeBottomBar = {
@@ -82,20 +88,21 @@ fun AppNavigation() {
         searchScreen(
             onSelected = {
                 rootNavController.popBackStack()
-                mainNavController.navigateToAds(
-                    AdsFilter(
-                        category = Category(
-                            id = it.categoryId,
-                            name = it.categoryName,
-                            icon = "",
-                            children = listOf()
-                        ),
-                        searchText = it.adsTitle
-                    )
-                )
+                mainNavController.navigateToAds(it)
             },
             onBack = {
                 rootNavController.popBackStack()
+            }
+        )
+
+        filterScreen(
+            onBack = {
+                rootNavController.popBackStack()
+            },
+            onSaveFilter = {
+                rootNavController.popBackStack()
+                mainNavController.popBackStack()
+                mainNavController.navigateToAds(it)
             }
         )
     }

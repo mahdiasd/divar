@@ -2,7 +2,6 @@ package com.divar.ads
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.divar.domain.model.filter.AdsFilter
 import com.divar.domain.model.onFailure
 import com.divar.domain.model.onSuccess
 import com.divar.domain.model.paginate.addMore
@@ -11,16 +10,19 @@ import com.divar.domain.usecase.ads.GetAdsSummaryUseCase
 import com.divar.domain.usecase.category.GetCategoriesUseCase
 import com.divar.domain.usecase.location.GetUserCityUseCase
 import com.divar.domain.usecase.parameter.GetParametersUseCase
-import com.divar.ui.model.FilterClickType
+import com.divar.domain.model.filter.FilterClickType
+import com.divar.domain.usecase.filter.ReadFilterFromCategoryUseCase
+import com.divar.domain.usecase.filter.ReadFilterFromHomeUseCase
+import com.divar.domain.usecase.filter.SaveFilterFromCategoryUseCase
+import com.divar.domain.usecase.filter.SaveFilterFromHomeUseCase
+import com.divar.ui.model.FromScreen
 import com.divar.ui.model.UiMessage
 import com.divar.ui.viewmodel.BaseViewModel
-import com.divar.utils.dLog
 import com.divar.utils.fromJson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.net.URLDecoder
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,13 +31,17 @@ class AdsViewModel @Inject constructor(
     private val getAdsSummaryUseCase: GetAdsSummaryUseCase,
     private val getUserCityUseCase: GetUserCityUseCase,
     private val getParameterUseCase: GetParametersUseCase,
-    private val getCategoriesUseCase: GetCategoriesUseCase
+    private val getCategoriesUseCase: GetCategoriesUseCase,
+    private val readFilterFromCategoryUseCase: ReadFilterFromCategoryUseCase,
+    private val readFilterFromHomeUseCase: ReadFilterFromHomeUseCase,
+    private val saveFilterFromCategoryUseCase: SaveFilterFromCategoryUseCase,
+    private val saveFilterFromHomeUseCase: SaveFilterFromHomeUseCase
 ) : BaseViewModel<AdsUiState, AdsUiEvent>() {
-
     init {
         getInitData()
         getUserCity()
-        getParameters()
+        if (currentState.adsFilter?.parameters.isNullOrEmpty())
+            getParameters()
         getCategories()
     }
 
@@ -71,11 +77,28 @@ class AdsViewModel @Inject constructor(
     }
 
     private fun getInitData() {
-        savedStateHandle?.get<String>("filter")?.let { json ->
-            val encodeJson = URLDecoder.decode(json, "UTF-8")
-            encodeJson.fromJson<AdsFilter?>()?.let { filter ->
-                setState { copy(adsFilter = filter) }
-                if (currentState.userCity != null) getAds()
+        savedStateHandle?.get<String>("fromScreen")?.let { json ->
+            setState { copy(fromScreen = json.fromJson<FromScreen>()!!) }
+            getAdsFilter()
+        }
+    }
+
+    private fun getAdsFilter() {
+        viewModelScope.launch {
+            when (currentState.fromScreen) {
+                FromScreen.Home -> {
+                    readFilterFromHomeUseCase.invoke().collect {
+                        setState { copy(adsFilter = it) }
+                        if (currentState.userCity != null) getAds()
+                    }
+                }
+
+                FromScreen.Category -> {
+                    readFilterFromCategoryUseCase.invoke().collect {
+                        setState { copy(adsFilter = it) }
+                        if (currentState.userCity != null) getAds()
+                    }
+                }
             }
         }
     }
@@ -141,7 +164,7 @@ class AdsViewModel @Inject constructor(
                                 setState {
                                     copy(adsFilter = currentState.adsFilter?.copy(parameters = adsFilter?.parameters?.map {
                                         if (event.filterClickType.parameter.id == it.id)
-                                            it.copy(answer = "")
+                                            it.copy(answer = null)
                                         else it
                                     }?.toImmutableList()))
                                 }
@@ -179,14 +202,27 @@ class AdsViewModel @Inject constructor(
                                 )
                             }
                             getAds()
+                            getParameters()
                         }
                     }
+                    saveFilter()
                 }
             }
 
             AdsUiEvent.OnDismissDialog -> {
                 setState { copy(showCategoryDialog = false) }
             }
+
+            AdsUiEvent.OnNavigated -> {
+                setState { copy(navigateToFilter = null) }
+            }
+        }
+    }
+
+    private suspend fun saveFilter() {
+        when (currentState.fromScreen) {
+            FromScreen.Home -> saveFilterFromHomeUseCase.invoke(currentState.adsFilter?.copy(focus = currentState.navigateToFilter))
+            FromScreen.Category -> saveFilterFromCategoryUseCase.invoke(currentState.adsFilter?.copy(focus = currentState.navigateToFilter))
         }
     }
 

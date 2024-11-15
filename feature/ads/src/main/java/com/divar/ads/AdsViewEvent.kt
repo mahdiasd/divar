@@ -8,7 +8,8 @@ import com.divar.domain.model.location.City
 import com.divar.domain.model.paginate.Paging
 import com.divar.domain.model.parameter.Parameter
 import com.divar.ui.extension.immutableListOf
-import com.divar.ui.model.FilterClickType
+import com.divar.domain.model.filter.FilterClickType
+import com.divar.ui.model.FromScreen
 import com.divar.ui.viewmodel.UiEvent
 import com.divar.ui.viewmodel.UiState
 import kotlinx.collections.immutable.ImmutableList
@@ -24,8 +25,8 @@ data class AdsUiState(
     val navigateToFilter: FilterClickType? = null,
     val navigateToNeighborhood: Boolean = false,
     val showCategoryDialog: Boolean = false,
-    val categories: ImmutableList<Category> = immutableListOf()
-
+    val categories: ImmutableList<Category> = immutableListOf(),
+    val fromScreen: FromScreen = FromScreen.Home,
 ) : UiState
 
 
@@ -33,6 +34,7 @@ sealed class AdsUiEvent : UiEvent {
     data object OnRefresh : AdsUiEvent()
     data object OnLoadMore : AdsUiEvent()
     data object OnDismissDialog : AdsUiEvent()
+    data object OnNavigated : AdsUiEvent()
     data class OnFilterClickType(val filterClickType: FilterClickType) : AdsUiEvent()
 }
 
