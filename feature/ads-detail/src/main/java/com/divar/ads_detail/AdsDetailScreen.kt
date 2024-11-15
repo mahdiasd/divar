@@ -1,8 +1,10 @@
 package com.divar.ads_detail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
@@ -10,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -43,7 +46,8 @@ fun AdsDetailScreen(
         }
     } else if (uiState.ads == null) {
         BodyMediumText(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .animateClickable { vm.onTriggerEvent(AdsDetailUiEvent.OnRefresh) },
             textAlign = TextAlign.Center,
             text = stringResource(id = R.string.try_again)
@@ -70,12 +74,15 @@ fun AdsDetailScreenContent(
     onAction: OnAction,
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically)
     ) {
         SliderSection(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1.3f)
+                .background(Color.Gray),
             ads = ads,
             onAction = onAction
         )
