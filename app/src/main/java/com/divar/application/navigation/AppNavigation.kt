@@ -5,6 +5,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.divar.ads.navigation.navigateToAds
+import com.divar.ads_detail.navigation.adsDetailScreen
 import com.divar.domain.model.category.Category
 import com.divar.domain.model.filter.AdsFilter
 import com.divar.filter.navigation.filterScreen
@@ -105,6 +106,12 @@ fun AppNavigation() {
                 mainNavController.navigateToAds(it)
             }
         )
+
+        adsDetailScreen(onBack = {
+            rootNavController.runWithLifecycleAware {
+                popBackStack()
+            }
+        })
     }
 
 }

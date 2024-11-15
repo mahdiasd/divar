@@ -1,5 +1,6 @@
 package com.divar.network.dto.location
 
+import com.divar.network.dto.neighborhood.NeighborhoodResponse
 import kotlinx.serialization.Serializable
 
 @Serializable
