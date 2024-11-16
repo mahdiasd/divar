@@ -220,8 +220,8 @@ object FakeData {
             ),
             images = listOf(),
             answers = listOf(),
-            createAt = Instant.now(),
-            updatedAt = Instant.now()
+            createAt = "",
+            updatedAt = ""
         )
     }
 

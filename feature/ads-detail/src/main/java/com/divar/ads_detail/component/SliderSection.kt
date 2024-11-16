@@ -8,7 +8,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -33,6 +36,7 @@ import com.divar.ads_detail.OnAction
 import com.divar.domain.fake_data.FakeData
 import com.divar.domain.model.ads.Ads
 import com.divar.ui.core.text.BodyMediumText
+import com.divar.ui.extension.animateClickable
 import com.divar.ui.extension.baseModifier
 import com.divar.ui.them.AppTheme
 import com.divar.utils.coilRounded
@@ -41,7 +45,8 @@ import com.divar.utils.coilRounded
 fun SliderSection(
     modifier: Modifier,
     ads: Ads,
-    onAction: OnAction
+    onAction: OnAction,
+    onBack: () -> Unit
 ) {
     val pagerState = rememberPagerState {
         ads.images.size
@@ -63,16 +68,19 @@ fun SliderSection(
 
         Icon(
             modifier = Modifier
+                .padding(8.dp)
                 .size(24.dp)
+                .animateClickable(onBack)
                 .align(alignment = Alignment.TopEnd),
             imageVector = Icons.Default.ArrowForward,
             contentDescription = "Click to back",
-            tint = AppTheme.colors.iconColor
+            tint = Color.White
         )
 
         Row(
             Modifier
-                .align(alignment = Alignment.TopStart),
+                .align(alignment = Alignment.TopStart)
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally)
         ) {
@@ -81,7 +89,7 @@ fun SliderSection(
                     .size(24.dp),
                 imageVector = Icons.Default.Share,
                 contentDescription = "",
-                tint = AppTheme.colors.iconColor
+                tint = Color.White
             )
 
             Icon(
@@ -89,7 +97,7 @@ fun SliderSection(
                     .size(24.dp),
                 imageVector = Icons.Default.Print,
                 contentDescription = "",
-                tint = AppTheme.colors.iconColor
+                tint = Color.White
             )
 
             Icon(
@@ -97,30 +105,42 @@ fun SliderSection(
                     .size(24.dp),
                 imageVector = Icons.Default.BookmarkBorder,
                 contentDescription = "",
-                tint = AppTheme.colors.iconColor
+                tint = Color.White
             )
         }
 
 
         Row(
-            modifier = Modifier.background(
-                color = Color.Black.copy(alpha = 0.4f),
-                shape = AppTheme.shapes.roundMedium
-            ),
+            modifier = Modifier
+                .padding(8.dp)
+                .background(
+                    color = Color.Black.copy(alpha = 0.7f),
+                    shape = AppTheme.shapes.roundMedium
+                )
+                .padding(vertical = 0.dp, horizontal = 4.dp)
+                .align(alignment = Alignment.BottomStart),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally)
         ) {
             Icon(
                 modifier = Modifier.size(24.dp),
                 imageVector = Icons.Default.Fullscreen,
-                contentDescription = ""
+                contentDescription = "",
+                tint = Color.White
             )
-            BodyMediumText(text = ads.images.size.toString())
+            BodyMediumText(
+                modifier = Modifier.padding(top = 4.dp),
+                text = ads.images.size.toString(),
+                color = Color.White
+            )
         }
 
         HorizontalPagerIndicator(
-            modifier = Modifier.fillMaxWidth(),
-            pagerState
+            modifier = Modifier
+                .align(alignment = Alignment.BottomCenter)
+                .padding(vertical = 8.dp)
+                .width(100.dp),
+            pagerState = pagerState
         )
     }
 }
@@ -131,10 +151,14 @@ fun HorizontalPagerIndicator(
     pagerState: PagerState
 ) {
 
-    LazyRow(modifier = modifier) {
+    LazyRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(4.dp, alignment = Alignment.CenterHorizontally)
+    ) {
         items(pagerState.pageCount) { index ->
             Spacer(
                 modifier = Modifier
+                    .size(12.dp)
                     .then(
                         if (index == pagerState.currentPage) {
                             Modifier
@@ -162,7 +186,8 @@ private fun Preview() {
                     .aspectRatio(1.3f)
                     .background(Color.Gray, shape = AppTheme.shapes.roundSmall),
                 FakeData.provideAds(),
-                onAction = {})
+                onAction = {},
+                onBack = {})
         }
     }
 }

@@ -1,7 +1,8 @@
 package com.divar.network.dto.user
 
-import java.time.Instant
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UserResponse(
     val name: String,
 
@@ -13,7 +14,7 @@ data class UserResponse(
 
     val mobile: String,
 
-    val createAt: Instant?,
+    val createAt: String?,
 
-    val updatedAt: Instant?,
+    val updatedAt: String?,
 )

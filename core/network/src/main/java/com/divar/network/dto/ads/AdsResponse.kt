@@ -5,8 +5,10 @@ import com.divar.network.dto.image.ImageResponse
 import com.divar.network.dto.neighborhood.NeighborhoodResponse
 import com.divar.network.dto.parameter.ParameterAnswerResponse
 import com.divar.network.dto.user.UserResponse
+import kotlinx.serialization.Serializable
 import java.time.Instant
 
+@Serializable
 data class AdsResponse(
     val id: Long,
 
@@ -26,7 +28,7 @@ data class AdsResponse(
 
     val answers: List<ParameterAnswerResponse>,
 
-    val createAt: Instant? = null,
+    val createAt: String? = null,
 
-    val updatedAt: Instant? = null,
+    val updatedAt: String? = null,
 )

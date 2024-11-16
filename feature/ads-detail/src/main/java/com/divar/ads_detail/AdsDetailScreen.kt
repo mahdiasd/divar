@@ -36,7 +36,10 @@ fun AdsDetailScreen(
     val uiState = vm.uiState.collectAsState().value
 
     if (uiState.isLoading) {
-        Box(modifier = Modifier.baseModifier(), contentAlignment = Alignment.Center)
+        Box(
+            modifier = Modifier.baseModifier(),
+            contentAlignment = Alignment.Center
+        )
         {
             CircularProgressIndicator(
                 modifier = Modifier.size(32.dp),
@@ -54,11 +57,12 @@ fun AdsDetailScreen(
         )
     } else {
         AdsDetailScreenContent(
-            modifier = Modifier.baseModifier(),
+            modifier = Modifier.baseModifier(0.dp),
             onAction = {
                 vm.onTriggerEvent(it)
             },
-            ads = uiState.ads
+            ads = uiState.ads,
+            onBack = onBack
         )
     }
 
@@ -72,11 +76,12 @@ fun AdsDetailScreenContent(
     modifier: Modifier = Modifier,
     ads: Ads,
     onAction: OnAction,
+    onBack: () -> Unit = {}
 ) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically)
+        verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Top)
     ) {
         SliderSection(
             modifier = Modifier
@@ -84,6 +89,7 @@ fun AdsDetailScreenContent(
                 .aspectRatio(1.3f)
                 .background(Color.Gray),
             ads = ads,
+            onBack = onBack,
             onAction = onAction
         )
     }

@@ -13,7 +13,7 @@ data class User(
 
     val mobile: String,
 
-    val createAt: Instant?,
+    val createAt: String?,
 
-    val updatedAt: Instant?,
+    val updatedAt: String?,
 )

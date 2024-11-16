@@ -24,7 +24,7 @@ class AdsDetailViewModel @Inject constructor(
     }
 
     private fun getInitData() {
-        savedStateHandle?.get<String>("id")?.takeIf { it.isNotEmpty() }?.let {
+        savedStateHandle?.get<Int>("id")?.let {
             adsId = it.toLong()
             getAds()
         }

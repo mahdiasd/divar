@@ -26,7 +26,7 @@ data class Ads(
 
     val answers: List<ParameterAnswer>,
 
-    val createAt: Instant? = null,
+    val createAt: String? = null,
 
-    val updatedAt: Instant? = null,
+    val updatedAt: String? = null,
 )

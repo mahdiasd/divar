@@ -51,7 +51,8 @@ fun HomeScreen(
     vm: HomeViewModel = hiltViewModel(),
     onCity: () -> Unit = {},
     onSearch: () -> Unit = {},
-    onSelectedCategory: (Category) -> Unit
+    onSelectedCategory: (Category) -> Unit,
+    onAdsClick: (Long) -> Unit
 ) {
     val uiState = vm.uiState.collectAsState().value
     val scrollState = rememberScrollState()
@@ -82,7 +83,8 @@ fun HomeScreen(
         cityName = uiState.userCity?.name ?: "",
         onCity = onCity,
         onSearch = onSearch,
-        onAction = { vm.onTriggerEvent(it) }
+        onAction = { vm.onTriggerEvent(it) },
+        onAdsClick = { onAdsClick(it.id) }
     )
 
     if (!uiState.selectedCategories.isNullOrEmpty()) {
@@ -92,7 +94,7 @@ fun HomeScreen(
             selectedCategories = uiState.selectedCategories,
             searchedCategories = uiState.searchedCategories,
             searchText = uiState.categorySearchText,
-            onAction = { vm.onTriggerEvent(it) }
+            onAction = { vm.onTriggerEvent(it) },
         )
     }
 
@@ -115,6 +117,7 @@ fun HomeScreenContent(
     onAction: OnAction,
     onCity: () -> Unit = {},
     onSearch: () -> Unit = {},
+    onAdsClick: (AdsSummary) -> Unit = {},
 ) {
     val state = rememberPullToRefreshState()
 
@@ -187,7 +190,7 @@ fun HomeScreenContent(
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                 ) {
                     ads?.content?.forEachIndexed { index, adsSummary ->
-                        AdsItem(adsSummary = adsSummary, onClick = {})
+                        AdsItem(adsSummary = adsSummary, onClick = { onAdsClick(adsSummary) })
                         if (index != ads.content.size - 1) {
                             HorizontalDivider(
                                 modifier = Modifier
