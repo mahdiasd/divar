@@ -32,6 +32,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.divar.ads_detail.AdsDetailUiEvent
 import com.divar.ads_detail.OnAction
 import com.divar.domain.fake_data.FakeData
 import com.divar.domain.model.ads.Ads
@@ -113,6 +114,7 @@ fun SliderSection(
         Row(
             modifier = Modifier
                 .padding(8.dp)
+                .animateClickable { onAction(AdsDetailUiEvent.ShowFullScreenSlider(true)) }
                 .background(
                     color = Color.Black.copy(alpha = 0.7f),
                     shape = AppTheme.shapes.roundMedium

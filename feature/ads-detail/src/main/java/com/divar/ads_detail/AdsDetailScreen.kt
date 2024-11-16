@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.divar.ads_detail.component.FullScreenSlider
 import com.divar.ads_detail.component.SliderSection
 import com.divar.domain.fake_data.FakeData
 import com.divar.domain.model.ads.Ads
@@ -47,6 +48,11 @@ fun AdsDetailScreen(
                 color = AppTheme.colors.titleColor
             )
         }
+    } else if (uiState.showFullScreenSlider) {
+        FullScreenSlider(
+            ads = uiState.ads!!,
+            onDismiss = { vm.onTriggerEvent(AdsDetailUiEvent.ShowFullScreenSlider(false)) }
+        )
     } else if (uiState.ads == null) {
         BodyMediumText(
             modifier = Modifier
@@ -70,6 +76,7 @@ fun AdsDetailScreen(
         shared = vm.uiMessage
     )
 }
+
 
 @Composable
 fun AdsDetailScreenContent(

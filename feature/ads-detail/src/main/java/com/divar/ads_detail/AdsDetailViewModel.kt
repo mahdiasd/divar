@@ -48,6 +48,12 @@ class AdsDetailViewModel @Inject constructor(
     override fun createInitialState() = AdsDetailUiState()
 
     override fun onTriggerEvent(event: AdsDetailUiEvent) {
+        when (event) {
+            AdsDetailUiEvent.OnRefresh -> getAds()
+            is AdsDetailUiEvent.ShowFullScreenSlider -> {
+                setState { copy(showFullScreenSlider = event.isFullScreen) }
+            }
+        }
     }
 
 }
