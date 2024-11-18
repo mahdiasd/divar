@@ -47,7 +47,8 @@ fun SliderSection(
     modifier: Modifier,
     ads: Ads,
     onAction: OnAction,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onShare: () -> Unit = {}
 ) {
     val pagerState = rememberPagerState {
         ads.images.size
@@ -87,9 +88,10 @@ fun SliderSection(
         ) {
             Icon(
                 modifier = Modifier
+                    .animateClickable { onShare() }
                     .size(24.dp),
                 imageVector = Icons.Default.Share,
-                contentDescription = "",
+                contentDescription = "Share",
                 tint = Color.White
             )
 
@@ -97,7 +99,7 @@ fun SliderSection(
                 modifier = Modifier
                     .size(24.dp),
                 imageVector = Icons.Default.Print,
-                contentDescription = "",
+                contentDescription = "Print",
                 tint = Color.White
             )
 
@@ -105,7 +107,7 @@ fun SliderSection(
                 modifier = Modifier
                     .size(24.dp),
                 imageVector = Icons.Default.BookmarkBorder,
-                contentDescription = "",
+                contentDescription = "Bookmark",
                 tint = Color.White
             )
         }

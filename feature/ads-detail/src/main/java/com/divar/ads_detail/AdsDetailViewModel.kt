@@ -1,5 +1,7 @@
 package com.divar.ads_detail
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.divar.domain.model.onFailure
@@ -53,7 +55,30 @@ class AdsDetailViewModel @Inject constructor(
             is AdsDetailUiEvent.ShowFullScreenSlider -> {
                 setState { copy(showFullScreenSlider = event.isFullScreen) }
             }
+
+            is AdsDetailUiEvent.OnShareClick -> {
+                shareAds(event.context)
+            }
         }
     }
+
+    private fun shareAds(context: Context) {
+        val shareText = """
+            ${currentState.ads?.title}
+            
+            ${currentState.ads?.description}
+            
+            ${currentState.ads?.images?.firstOrNull()}
+            
+        """.trimIndent()
+
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, shareText)
+            type = "text/plain"
+        }
+        context.startActivity(Intent.createChooser(sendIntent , "Divar Share"))
+    }
+
 
 }
