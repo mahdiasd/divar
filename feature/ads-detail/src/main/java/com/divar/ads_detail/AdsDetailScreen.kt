@@ -4,12 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CircularProgressIndicator
@@ -32,6 +37,7 @@ import com.divar.domain.fake_data.FakeData
 import com.divar.domain.model.ads.Ads
 import com.divar.domain.model.parameter.ParameterAnswer
 import com.divar.ui.R
+import com.divar.ui.core.button.AppButton
 import com.divar.ui.core.text.BodyLargeText
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.core.text.LabelMediumText
@@ -101,7 +107,7 @@ fun AdsDetailScreenContent(
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Top)
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
         SliderSection(
             modifier = Modifier
@@ -113,9 +119,40 @@ fun AdsDetailScreenContent(
             onShare = { onAction(AdsDetailUiEvent.OnShareClick(context)) },
             onAction = onAction
         )
+        CenterSection(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .weight(1f)
+                .padding(16.dp),
+            ads = ads
+        )
+
+        AppButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colors.itemColor)
+                .padding(16.dp),
+            text = R.string.contact_information
+        ) {
+
+        }
+
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun CenterSection(modifier: Modifier, ads: Ads) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Top)
+    ) {
 
         Row(
-            Modifier.fillMaxWidth(),
+            Modifier
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally)
         ) {
@@ -124,10 +161,13 @@ fun AdsDetailScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                text = ads.category.name
+                text = ads.category.name,
+                color = AppTheme.colors.primaryColor
             )
             Icon(
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier
+                    .size(18.dp)
+                    .padding(bottom = 4.dp),
                 imageVector = Icons.Default.Menu,
                 contentDescription = "category",
                 tint = AppTheme.colors.iconColor
@@ -135,14 +175,16 @@ fun AdsDetailScreenContent(
         }
 
         BodyLargeText(
-            Modifier.fillMaxWidth(),
-            textAlign = TextAlign.End,
+            Modifier
+                .fillMaxWidth(),
+            textAlign = TextAlign.Start,
             text = ads.title
         )
 
         BodyMediumText(
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.End,
+            modifier = Modifier
+                .fillMaxWidth(),
+            textAlign = TextAlign.Start,
             text = "${ads.createAt.relativeTime()} ${ads.neighborhood.name}"
         )
 
@@ -153,30 +195,32 @@ fun AdsDetailScreenContent(
             thickness = 0.5.dp
         )
 
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+        FlowColumn(
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
-            items(ads.answers.size, key = { ads.answers[it].parameter.id })
-            { index ->
-                ParameterAnswerItem(ads.answers[index])
+            ads.answers.forEachIndexed { index, parameterAnswer ->
+                ParameterAnswerItem(parameterAnswer)
 
                 HorizontalDivider(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp),
+                        .padding(vertical = 16.dp),
                     thickness = 0.5.dp
                 )
             }
         }
 
         BodyMediumText(
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.End,
+            modifier = Modifier
+                .fillMaxWidth(),
+            textAlign = TextAlign.Start,
             text = stringResource(id = R.string.description)
         )
         BodyMediumText(
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.End,
+            modifier = Modifier
+                .fillMaxWidth(),
+            textAlign = TextAlign.Start,
             text = ads.description
         )
     }
