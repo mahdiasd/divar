@@ -10,7 +10,8 @@ const val homeRoute = "home_route"
 fun NavGraphBuilder.homeScreen(
     onCity: () -> Unit,
     onSearch: () -> Unit,
-    onSelectedCategory: (Category) -> Unit
+    onSelectedCategory: (Category) -> Unit,
+    onAdsClick: (Long) -> Unit
 ) {
     composable(
         route = homeRoute,
@@ -18,7 +19,8 @@ fun NavGraphBuilder.homeScreen(
         HomeScreen(
             onCity = onCity,
             onSearch = onSearch,
-            onSelectedCategory = onSelectedCategory
+            onSelectedCategory = onSelectedCategory,
+            onAdsClick = onAdsClick
         )
     }
 }

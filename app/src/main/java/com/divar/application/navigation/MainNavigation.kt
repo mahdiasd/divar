@@ -21,6 +21,7 @@ fun MainNavigation(
     navController: NavHostController,
     onSearch: (FromScreen) -> Unit,
     onFilter: (FromScreen) -> Unit,
+    onAdsClick: (Long) -> Unit,
     onCity: () -> Unit
 ) {
     NavHost(
@@ -36,7 +37,8 @@ fun MainNavigation(
                 navController.runWithLifecycleAware {
                     navigateToAds(FromScreen.Home)
                 }
-            }
+            },
+            onAdsClick = onAdsClick
         )
 
         categoryScreen(

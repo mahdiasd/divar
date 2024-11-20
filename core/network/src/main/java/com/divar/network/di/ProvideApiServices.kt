@@ -1,5 +1,6 @@
 package com.divar.network.di
 
+import com.divar.network.api.ads.AdsApiService
 import com.divar.network.api.ads.AdsSummaryApiService
 import com.divar.network.api.category.CategoryApiService
 import com.divar.network.api.category.CategoryOfAdsApiService
@@ -44,5 +45,10 @@ object ProvideApiServices {
     @Provides
     fun provideParametersApiService(retrofit: Retrofit): ParameterApiService {
         return retrofit.create(ParameterApiService::class.java)
+    }
+    @Singleton
+    @Provides
+    fun provideAdsApiService(retrofit: Retrofit): AdsApiService {
+        return retrofit.create(AdsApiService::class.java)
     }
 }

@@ -1,12 +1,15 @@
 package com.divar.domain.fake_data
 
+import com.divar.domain.model.ads.Ads
 import com.divar.domain.model.ads.AdsSummary
 import com.divar.domain.model.category.Category
 import com.divar.domain.model.image.Image
 import com.divar.domain.model.location.City
 import com.divar.domain.model.location.Neighborhood
+import com.divar.domain.model.user.User
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import java.time.Instant
 
 object FakeData {
 
@@ -190,6 +193,35 @@ object FakeData {
                 previewImage = null,
                 createAt = "2024-07-22T18:16:26Z"
             )
+        )
+    }
+
+    fun provideAds(): Ads {
+        return Ads(
+            id = 3595,
+            title = "option",
+            description = "errem",
+            price = "detraxit",
+            neighborhood = Neighborhood(id = 9534, name = "Jodi Oliver"),
+            user = User(
+                name = "Nicholas Howell",
+                family = "solet",
+                email = "denver.odom@example.com",
+                token = "nam",
+                mobile = "suscipit",
+                createAt = null,
+                updatedAt = null
+            ),
+            category = Category(
+                name = "Dianne Gibbs",
+                id = 7218,
+                icon = "percipit",
+                children = listOf()
+            ),
+            images = listOf(),
+            answers = listOf(),
+            createAt = "",
+            updatedAt = ""
         )
     }
 
