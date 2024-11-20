@@ -31,4 +31,12 @@
     <string name="description">توضیحات</string>
     <string name="contact_information">اطلاعات تماس</string>
 
+    <string name="register">ثبت نام</string>
+    <string name="login">ورود</string>
+    <string name="login_to_account">ورود به حساب کاربری</string>
+
+    <string name="register_user">ثبت نام کاربر</string>
+    <string name="enter_mobile_number">شماره موبایل خود را وارد کنید</string>
+    <string name="enter_mobile_number_description">برای استفاده از امکانات دیوار، لطفا شماره موبایل خود را وارد کنید. کد</string>
+
 </resources>
