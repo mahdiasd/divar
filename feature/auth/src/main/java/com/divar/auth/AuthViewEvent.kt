@@ -16,6 +16,7 @@ data class AuthUiState(
 sealed class AuthUiEvent : UiEvent {
     data class OnTextChanged(val typingType: TypingType) : AuthUiEvent()
     data class OnChangeMode(val screenMode: ScreenMode) : AuthUiEvent()
+    data object OnBtnClick: AuthUiEvent()
 }
 
 typealias OnAction = (AuthUiEvent) -> Unit

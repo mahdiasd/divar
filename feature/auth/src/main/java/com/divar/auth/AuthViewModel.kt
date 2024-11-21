@@ -25,6 +25,10 @@ class AuthViewModel @Inject constructor(
                     is TypingType.RepeatPassword -> setState { copy(repeatPassword = event.typingType.text) }
                 }
             }
+
+            AuthUiEvent.OnBtnClick -> {
+
+            }
         }
     }
 
