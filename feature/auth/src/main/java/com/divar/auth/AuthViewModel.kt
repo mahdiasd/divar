@@ -13,6 +13,19 @@ class AuthViewModel @Inject constructor(
     override fun createInitialState() = AuthUiState()
 
     override fun onTriggerEvent(event: AuthUiEvent) {
+        when (event) {
+            is AuthUiEvent.OnChangeMode -> {
+                setState { copy(screenMode = event.screenMode) }
+            }
+
+            is AuthUiEvent.OnTextChanged -> {
+                when (event.typingType) {
+                    is TypingType.Mobile -> setState { copy(mobile = event.typingType.text) }
+                    is TypingType.Password -> setState { copy(password = event.typingType.text) }
+                    is TypingType.RepeatPassword -> setState { copy(repeatPassword = event.typingType.text) }
+                }
+            }
+        }
     }
 
 }
