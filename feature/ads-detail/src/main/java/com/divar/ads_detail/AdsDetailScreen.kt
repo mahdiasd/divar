@@ -133,10 +133,9 @@ fun AdsDetailScreenContent(
                 .fillMaxWidth()
                 .background(AppTheme.colors.itemColor)
                 .padding(16.dp),
-            text = R.string.contact_information
-        ) {
-
-        }
+            text = R.string.contact_information,
+            onClick = {}
+        )
 
     }
 }

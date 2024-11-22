@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,16 +39,24 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 fun AuthScreen(
     vm: AuthViewModel = hiltViewModel(),
+    navigateToMain : () -> Unit
 ) {
     val uiState = vm.uiState.collectAsState().value
 
+    LaunchedEffect(key1 = uiState.user) {
+        if (uiState.user != null) {
+            navigateToMain()
+        }
+    }
+
     AuthScreenContent(
-        Modifier.baseModifier(0.dp),
+        modifier = Modifier.baseModifier(0.dp),
         screenMode = uiState.screenMode,
         onAction = { vm.onTriggerEvent(it) },
         mobile = uiState.mobile,
         password = uiState.password,
-        repeatPassword = uiState.repeatPassword
+        repeatPassword = uiState.repeatPassword,
+        isLoading = uiState.isLoading
     )
 
     UiMessageScreen(shared = vm.uiMessage)
@@ -61,6 +70,7 @@ fun AuthScreenContent(
     mobile: String = "",
     password: String = "",
     repeatPassword: String = "",
+    isLoading: Boolean = false
 ) {
     Column(
         modifier = modifier,
@@ -192,6 +202,7 @@ fun AuthScreenContent(
                 .fillMaxWidth()
                 .background(color = AppTheme.colors.itemColor)
                 .padding(16.dp),
+            isLoading = isLoading,
             text = when (screenMode) {
                 ScreenMode.Login -> R.string.login
                 ScreenMode.Register -> R.string.register

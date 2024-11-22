@@ -7,11 +7,12 @@ import com.divar.auth.AuthScreen
 
 const val authRoute = "auth_route"
 fun NavGraphBuilder.authScreen(
+    navigateToMain : () -> Unit
 ) {
     composable(
         route = authRoute,
     ) {
-        AuthScreen()
+        AuthScreen(navigateToMain = navigateToMain)
     }
 }
 

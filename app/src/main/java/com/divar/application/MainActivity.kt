@@ -52,8 +52,7 @@ class MainActivity : ComponentActivity() {
                 )
             }
             AppTheme {
-//                AppNavigation()
-                AuthScreen()
+                AppNavigation()
             }
         }
     }
