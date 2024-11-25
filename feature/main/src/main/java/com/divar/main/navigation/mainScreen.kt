@@ -12,7 +12,7 @@ const val mainRoute = "main_route"
 fun NavGraphBuilder.mainScreen(
     bottomBarItems: List<BottomBarItem>,
     mainNavigation: @Composable () -> Unit,
-    onChangeBottomBar: (BottomBarItem) -> Unit
+    onChangeBottomBar: (BottomBarItem , Boolean) -> Unit
 
 ) {
     composable(

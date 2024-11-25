@@ -31,4 +31,26 @@
     <string name="description">توضیحات</string>
     <string name="contact_information">اطلاعات تماس</string>
 
+    <string name="register">ثبت نام</string>
+    <string name="login">ورود</string>
+    <string name="login_to_account">ورود به حساب کاربری</string>
+
+    <string name="register_user">ثبت نام کاربر</string>
+    <string name="enter_mobile_number">شماره موبایل خود را وارد کنید</string>
+    <string name="enter_mobile_number_description">برای استفاده از امکانات دیوار، لطفا شماره موبایل خود را وارد کنید.</string>
+    <string name="mobile_number">شماره موبایل</string>
+    <string name="password">رمز عبور</string>
+    <string name="repeat_password">تکرار رمز عبور</string>
+
+    <string name="auth_tip_section1">فراموش نکنید; استفاده شما از خدمات دیوار به معنای پذیرفتن تمام</string>
+    <string name="auth_tip_section2">شرایط و قوانین استفاده</string>
+    <string name="auth_tip_section3">و</string>
+    <string name="auth_tip_section4">سیاست نامه حریم خصوصی</string>
+    <string name="auth_tip_section5">دیوار است</string>
+
+    <string name="enter_mobile">شماره موبایل رو وارد کنید!</string>
+    <string name="enter_password">رمز عبور را وارد کنید</string>
+    <string name="enter_repeat_password">تکرار رمز عبور را وارد کنید!</string>
+    <string name="password_repeat_not_same">پسورد و تکرار آن یکسان نیستند!</string>
+
 </resources>

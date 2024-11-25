@@ -7,6 +7,7 @@ import com.divar.data.repository.category.CategoryRepositoryImpl
 import com.divar.data.repository.filter.FilterRepositoryImpl
 import com.divar.data.repository.location.LocationRepositoryImpl
 import com.divar.data.repository.parameter.ParameterRepositoryImpl
+import com.divar.data.repository.user.UserRepositoryImpl
 import com.divar.domain.repository.ads.AdsRepository
 import com.divar.domain.repository.ads.AdsSummaryRepository
 import com.divar.domain.repository.category.CategoryOfAdsRepository
@@ -14,6 +15,7 @@ import com.divar.domain.repository.category.CategoryRepository
 import com.divar.domain.repository.filter.FilterRepository
 import com.divar.domain.repository.location.LocationRepository
 import com.divar.domain.repository.parameter.ParameterRepository
+import com.divar.domain.repository.user.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -43,4 +45,7 @@ interface BindRepositories {
 
     @Binds
     fun bindAdsRepo(repo: AdsRepositoryImpl): AdsRepository
+
+    @Binds
+    fun bindUserRepo(repo: UserRepositoryImpl): UserRepository
 }

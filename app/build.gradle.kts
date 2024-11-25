@@ -46,6 +46,7 @@ dependencies {
     implementation(project(":feature:ads"))
     implementation(project(":feature:filter"))
     implementation(project(":feature:ads-detail"))
+    implementation(project(":feature:auth"))
 
     implementation(libs.androidx.core.splashscreen)
 }

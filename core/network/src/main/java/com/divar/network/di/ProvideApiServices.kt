@@ -6,6 +6,7 @@ import com.divar.network.api.category.CategoryApiService
 import com.divar.network.api.category.CategoryOfAdsApiService
 import com.divar.network.api.location.LocationApiService
 import com.divar.network.api.parameter.ParameterApiService
+import com.divar.network.api.user.UserApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,9 +47,16 @@ object ProvideApiServices {
     fun provideParametersApiService(retrofit: Retrofit): ParameterApiService {
         return retrofit.create(ParameterApiService::class.java)
     }
+
     @Singleton
     @Provides
     fun provideAdsApiService(retrofit: Retrofit): AdsApiService {
         return retrofit.create(AdsApiService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserApiService(retrofit: Retrofit): UserApiService {
+        return retrofit.create(UserApiService::class.java)
     }
 }

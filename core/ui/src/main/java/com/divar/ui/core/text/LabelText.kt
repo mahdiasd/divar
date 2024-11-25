@@ -7,12 +7,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import com.divar.ui.extension.immutableListOf
 import com.divar.ui.them.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 
@@ -20,9 +23,11 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 private fun Prev() {
     AppTheme {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .background(AppTheme.colors.backgroundColor)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colors.backgroundColor)
+        ) {
             LabelSmallText(text = "this is LabelLargeText preview")
             LabelMediumText(text = "this is LabelMediumText preview")
         }
@@ -55,6 +60,7 @@ fun LabelMediumText(
 fun LabelMediumColoredText(
     modifier: Modifier = Modifier,
     texts: ImmutableList<String>,
+    links: ImmutableList<String> = immutableListOf(),
     colors: ImmutableList<Color>,
     textStyle: TextStyle = AppTheme.typography.labelMedium,
 ) {
@@ -63,8 +69,17 @@ fun LabelMediumColoredText(
         style = textStyle,
         text = buildAnnotatedString {
             texts.forEachIndexed { index, text ->
-                withStyle(style = SpanStyle(color = colors[index])) {
-                    append(text)
+                if (links.getOrNull(index).isNullOrEmpty()) {
+                    withStyle(style = SpanStyle(color = colors[index])) {
+                        append(text)
+                    }
+                }else{
+                    withLink(link = LinkAnnotation.Url(links[index]))
+                    {
+                        withStyle(style = SpanStyle(color = colors[index])) {
+                            append(text)
+                        }
+                    }
                 }
             }
         },
