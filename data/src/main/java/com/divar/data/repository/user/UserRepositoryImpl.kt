@@ -31,7 +31,6 @@ class UserRepositoryImpl @Inject constructor(
             }
     }
 
-
     override suspend fun register(mobile: String, password: String, repeatPassword: String): Flow<DataResult<User>> = flow {
         safeCall {
             apiService.register(
@@ -51,9 +50,13 @@ class UserRepositoryImpl @Inject constructor(
             }
     }
 
-    private fun saveToken(token: String) {
-        sharedPreferences.edit()
-            .putString(SharedPrefConstant.TOKEN, token).apply()
+    override suspend fun isLogin(): Flow<Boolean> = flow {
+        emit(!sharedPreferences.getString(SharedPrefConstant.TOKEN, null).isNullOrEmpty())
     }
+
+    private fun saveToken(token: String) {
+        sharedPreferences.edit().putString(SharedPrefConstant.TOKEN, token).apply()
+    }
+
 
 }

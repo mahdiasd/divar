@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.divar.ads.navigation.navigateToAds
 import com.divar.ads_detail.navigation.adsDetailScreen
 import com.divar.ads_detail.navigation.navigateToAdsDetail
+import com.divar.auth.navigation.authRoute
 import com.divar.auth.navigation.authScreen
 import com.divar.domain.model.category.Category
 import com.divar.domain.model.filter.AdsFilter
@@ -63,23 +64,29 @@ fun AppNavigation() {
                     }
                 )
             },
-            onChangeBottomBar = {
+            onChangeBottomBar = { it, isLogin ->
                 it.route.takeIf { bottomBarItem -> bottomBarItem.isNotEmpty() }?.let { route ->
                     mainNavController.runWithLifecycleAware {
-                        navigate(route) {
-                            // Pop up to the start destination of the graph to
-                            // avoid building up a large stack of destinations
-                            // on the back stack as users select items
-                            popUpTo(mainNavController.graph.findStartDestination().id) {
-                                saveState = true
+                        if (it.route == "create_route" && !isLogin) {
+                            navigate(authRoute) {
+
                             }
+                        } else {
+                            navigate(route) {
+                                // Pop up to the start destination of the graph to
+                                // avoid building up a large stack of destinations
+                                // on the back stack as users select items
+                                popUpTo(mainNavController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
 
-                            // Avoid multiple copies of the same destination when
-                            // re-selecting the same item
-                            launchSingleTop = true
+                                // Avoid multiple copies of the same destination when
+                                // re-selecting the same item
+                                launchSingleTop = true
 
-                            // Restore state when re-selecting a previously selected item
-                            restoreState = true
+                                // Restore state when re-selecting a previously selected item
+                                restoreState = true
+                            }
                         }
                     }
                 }

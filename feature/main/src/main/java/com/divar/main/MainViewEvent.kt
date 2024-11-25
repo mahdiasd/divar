@@ -7,7 +7,8 @@ import com.divar.ui.viewmodel.UiState
 @Stable
 data class MainUiState(
     val isLoading: Boolean = true,
-    val selectedIndex: Int = 4
+    val selectedIndex: Int = 4,
+    val isUserLoggedIn: Boolean = false
 ) : UiState
 
 

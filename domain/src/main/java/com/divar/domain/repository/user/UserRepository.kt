@@ -15,4 +15,6 @@ interface UserRepository {
         password: String,
         repeatPassword: String,
     ): Flow<DataResult<User>>
+
+    suspend fun isLogin(): Flow<Boolean>
 }
