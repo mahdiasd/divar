@@ -1,31 +1,27 @@
 package com.divar.create_ads
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.divar.create_ads.component.CreateAdsToolbar
 import com.divar.ui.R
-import com.divar.ui.core.text.BodyMediumText
+import com.divar.ui.core.button.AppButton
 import com.divar.ui.core.ui_message.UiMessageScreen
-import com.divar.ui.extension.animateClickable
 import com.divar.ui.extension.baseModifier
+import com.divar.ui.them.AppTheme
 
 @Composable
 fun CreateAdsScreen(
@@ -51,6 +47,7 @@ fun CreateAdsScreenContent(
 ) {
     Scaffold(
         modifier = modifier,
+        containerColor = AppTheme.colors.backgroundColor,
         topBar = {
             CreateAdsToolbar(
                 onAction = onAction,
@@ -58,7 +55,7 @@ fun CreateAdsScreenContent(
             )
         },
         bottomBar = {
-
+            BottomBar(onAction = onAction)
         }
     ) {
         Spacer(modifier = Modifier.padding(it))
@@ -67,35 +64,21 @@ fun CreateAdsScreenContent(
 }
 
 @Composable
-fun CreateAdsToolbar(
-    onAction: OnAction,
-    onClose : () -> Unit
-) {
-    Row(
-        Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally)
+fun BottomBar(onAction: OnAction) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(AppTheme.colors.itemColor)
+            .padding(16.dp)
     ) {
-        Icon(
-            modifier = Modifier.size(24.dp),
-            imageVector = Icons.Default.Refresh,
-            contentDescription = ""
-        )
-
-        BodyMediumText(
+        AppButton(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-            textAlign = TextAlign.Start,
-            text = stringResource(id = R.string.insert_ads)
-        )
-
-        Icon(
-            modifier = Modifier
-                .size(24.dp)
-                .animateClickable { onClose() },
-            imageVector = Icons.Default.Close,
-            contentDescription = ""
+                .height(55.dp)
+                .width(180.dp),
+            text = R.string.next,
+            onClick = {
+                onAction(CreateAdsUiEvent.OnNext)
+            }
         )
     }
 }
@@ -104,8 +87,10 @@ fun CreateAdsToolbar(
 @PreviewLightDark
 @Composable
 private fun Preview() {
-    CreateAdsScreenContent(
-        modifier = Modifier.baseModifier(),
-        onAction = {}
-    )
+    AppTheme {
+        CreateAdsScreenContent(
+            modifier = Modifier.baseModifier(),
+            onAction = {}
+        )
+    }
 }

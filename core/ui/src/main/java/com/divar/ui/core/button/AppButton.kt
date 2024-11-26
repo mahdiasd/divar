@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.divar.ui.R
@@ -32,7 +33,7 @@ fun AppButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = AppTheme.colors.primaryColor,
         ),
-        shape = AppTheme.shapes.roundSmall
+        shape = AppTheme.shapes.roundSmall,
     ) {
         if (isLoading) {
             CircularProgressIndicator(
@@ -45,7 +46,8 @@ fun AppButton(
         } else {
             TitleMediumText(
                 text = stringResource(id = text),
-                color = Color.White
+                color = Color.White,
+                textAlign = TextAlign.Center
             )
         }
     }
@@ -62,6 +64,7 @@ private fun Preview() {
         )
     }
 }
+
 @Preview
 @Composable
 private fun PreviewLoading() {

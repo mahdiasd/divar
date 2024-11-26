@@ -9,8 +9,8 @@ import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.sp
 import com.divar.ui.R
 
-private val iranSans = FontFamily(Font(R.font.iran_sans, FontWeight.Normal))
-private val iranSansBold = FontFamily(Font(R.font.iran_sans_bold, FontWeight.Bold))
+private val iranSans = FontFamily(Font(R.font.new_iran_sans, FontWeight.Normal))
+private val iranSansBold = FontFamily(Font(R.font.new_iran_sans_bold, FontWeight.Bold))
 
 data class AppTypography(
     val titleLarge: TextStyle = TextStyle(

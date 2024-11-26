@@ -12,6 +12,7 @@ data class CreateAdsUiState(
 
 enum class ScreenStep { Step1, Step2 }
 sealed class CreateAdsUiEvent : UiEvent {
+    data object OnNext : CreateAdsUiEvent()
 }
 
 typealias OnAction = (CreateAdsUiEvent) -> Unit
