@@ -52,5 +52,6 @@
     <string name="enter_password">رمز عبور را وارد کنید</string>
     <string name="enter_repeat_password">تکرار رمز عبور را وارد کنید!</string>
     <string name="password_repeat_not_same">پسورد و تکرار آن یکسان نیستند!</string>
+    <string name="insert_ads">ثبت آگهی</string>
 
 </resources>

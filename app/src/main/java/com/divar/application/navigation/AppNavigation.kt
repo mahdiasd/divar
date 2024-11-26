@@ -9,6 +9,9 @@ import com.divar.ads_detail.navigation.adsDetailScreen
 import com.divar.ads_detail.navigation.navigateToAdsDetail
 import com.divar.auth.navigation.authRoute
 import com.divar.auth.navigation.authScreen
+import com.divar.create_ads.navigation.createAdsRoute
+import com.divar.create_ads.navigation.createAdsScreen
+import com.divar.create_ads.navigation.navigateToCreateAds
 import com.divar.domain.model.category.Category
 import com.divar.domain.model.filter.AdsFilter
 import com.divar.filter.navigation.filterScreen
@@ -67,9 +70,11 @@ fun AppNavigation() {
             onChangeBottomBar = { it, isLogin ->
                 it.route.takeIf { bottomBarItem -> bottomBarItem.isNotEmpty() }?.let { route ->
                     mainNavController.runWithLifecycleAware {
-                        if (it.route == "create_route" && !isLogin) {
-                            navigate(authRoute) {
-
+                        if (it.route == createAdsRoute) {
+                            if (isLogin) {
+                                rootNavController.navigateToCreateAds()
+                            } else {
+                                rootNavController.navigate(authRoute)
                             }
                         } else {
                             navigate(route) {
@@ -126,7 +131,11 @@ fun AppNavigation() {
         })
 
         authScreen(navigateToMain = {
+            rootNavController.navigateToMain()
+        })
 
+        createAdsScreen(onBack = {
+            rootNavController.runWithLifecycleAware { popBackStack() }
         })
     }
 
