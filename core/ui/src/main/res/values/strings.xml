@@ -55,4 +55,15 @@
     <string name="insert_ads">ثبت آگهی</string>
     <string name="next">بعدی</string>
 
+    <string name="add_image_point">افزودن عکس بازدید آگهی شما را تا سه برابر افزایش می دهد.</string>
+    <string name="ads_title_point">در عنوان آگهی به موارد مهم و چشمگیر اشاره کنید.</string>
+
+    <string name="ads_title_hint">عنوان آگهی خود را بنویسید (اجباری)</string>
+    <string name="ads_description_hint">توضیحات مربوط به آگهی را بنویسید (اجباری)</string>
+    <string name="create_ads_guide">راهنمای ثبت آگهی</string>
+    <string name="image_of_ads">عکس آگهی</string>
+
+    <string name="image">عکس</string>
+    <string name="add_image">افزودن عکس</string>
+
 </resources>

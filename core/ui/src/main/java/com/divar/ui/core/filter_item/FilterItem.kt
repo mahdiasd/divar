@@ -1,4 +1,4 @@
-package com.divar.filter.component
+package com.divar.ui.core.filter_item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.divar.domain.model.parameter.DataType
 import com.divar.ui.R
 import com.divar.ui.core.input.AppTextField
 import com.divar.ui.core.text.BodyMediumText

@@ -34,7 +34,6 @@ import com.divar.ui.core.text.LabelSmallText
 import com.divar.ui.extension.animateClickable
 
 import com.divar.ui.them.AppTheme
-import com.divar.utils.dLog
 
 @Composable
 internal fun AdsToolbar(
@@ -125,7 +124,7 @@ internal fun AdsToolbar(
             horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.End),
         ) {
             item {
-                FilterItem(
+                AdsFilterItem(
                     title = stringResource(id = R.string.filters),
                     isSelected = adsFilter != null,
                     icon = R.drawable.ic_filter,
@@ -133,7 +132,7 @@ internal fun AdsToolbar(
                 )
             }
             item {
-                FilterItem(
+                AdsFilterItem(
                     title = adsFilter?.category?.name ?: stringResource(id = R.string.categories),
                     isVisibleClose = adsFilter?.category?.name != null,
                     icon = R.drawable.ic_category,
@@ -142,7 +141,7 @@ internal fun AdsToolbar(
                 )
             }
             item {
-                FilterItem(
+                AdsFilterItem(
                     title = adsFilter?.neighborhood?.name ?: stringResource(id = R.string.choose_neighborhood),
                     isVisibleClose = adsFilter?.neighborhood?.name != null,
                     onClose = { onAction(AdsUiEvent.OnFilterClickType(FilterClickType.OnNeighborhood(true))) },
@@ -152,7 +151,7 @@ internal fun AdsToolbar(
             }
             item {
 
-                FilterItem(
+                AdsFilterItem(
                     title = adsFilter?.price ?: stringResource(id = R.string.price),
                     isVisibleClose = adsFilter?.price != null,
                     onClose = { onAction(AdsUiEvent.OnFilterClickType(FilterClickType.OnPrice(true))) },
@@ -162,7 +161,7 @@ internal fun AdsToolbar(
             adsFilter?.parameters?.takeIf { it.isNotEmpty() }?.let { paramaters ->
                 items(items = paramaters)
                 { paramater ->
-                    FilterItem(
+                    AdsFilterItem(
                         title = paramater.answer ?: paramater.name,
                         isVisibleClose = paramater.answer != null,
                         onClose = {

@@ -7,17 +7,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.divar.create_ads.component.CreateAdsToolbar
+import com.divar.create_ads.component.Step1Content
+import com.divar.domain.model.ads.CreateAdsParam
 import com.divar.ui.R
+import com.divar.ui.category.CategoryDialog
 import com.divar.ui.core.button.AppButton
 import com.divar.ui.core.ui_message.UiMessageScreen
 import com.divar.ui.extension.baseModifier
@@ -33,8 +34,21 @@ fun CreateAdsScreen(
     CreateAdsScreenContent(
         modifier = Modifier.baseModifier(0.dp),
         onAction = { vm.onTriggerEvent(it) },
+        screenStep = uiState.screenStep,
+        createAdsParam = uiState.createAdsParam,
         onClose = onBack
     )
+
+    if (uiState.showCategoryDialog) {
+        CategoryDialog(
+            modifier = Modifier,
+            categories = uiState.allCategories,
+            onDismiss = { vm.onTriggerEvent(CreateAdsUiEvent.DismissDialog) },
+            onShowAds = {
+                vm.onTriggerEvent(CreateAdsUiEvent.OnSelectCategory(it))
+            }
+        )
+    }
 
     UiMessageScreen(shared = vm.uiMessage)
 }
@@ -43,6 +57,8 @@ fun CreateAdsScreen(
 fun CreateAdsScreenContent(
     modifier: Modifier = Modifier,
     onAction: OnAction,
+    screenStep: ScreenStep,
+    createAdsParam: CreateAdsParam = CreateAdsParam(),
     onClose: () -> Unit = {}
 ) {
     Scaffold(
@@ -58,10 +74,16 @@ fun CreateAdsScreenContent(
             BottomBar(onAction = onAction)
         }
     ) {
+        when (screenStep) {
+            ScreenStep.Step1 -> Step1Content(createAdsParam , onAction)
+            ScreenStep.Step2 -> {}
+        }
         Spacer(modifier = Modifier.padding(it))
     }
 
 }
+
+
 
 @Composable
 fun BottomBar(onAction: OnAction) {
@@ -89,7 +111,8 @@ fun BottomBar(onAction: OnAction) {
 private fun Preview() {
     AppTheme {
         CreateAdsScreenContent(
-            modifier = Modifier.baseModifier(),
+            modifier = Modifier.baseModifier(0.dp),
+            screenStep = ScreenStep.Step1,
             onAction = {}
         )
     }
