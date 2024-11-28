@@ -62,8 +62,11 @@
     <string name="ads_description_hint">توضیحات مربوط به آگهی را بنویسید (اجباری)</string>
     <string name="create_ads_guide">راهنمای ثبت آگهی</string>
     <string name="image_of_ads">عکس آگهی</string>
+    <string name="title_of_ads">عنوان آگهی</string>
 
     <string name="image">عکس</string>
     <string name="add_image">افزودن عکس</string>
+    <string name="ads_description_title">توضیحات آگهی</string>
+    <string name="ads_description_point">جزئیات و نکات جالب توجه آگهی خود را کامل و دقیق بنویسید. نوشتن شماره تماس در متن آگهی مجاز نیست. حتما به ساعات پاسخگویی خود اشاره کنید.</string>
 
 </resources>

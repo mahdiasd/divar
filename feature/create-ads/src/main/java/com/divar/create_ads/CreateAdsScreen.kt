@@ -1,5 +1,6 @@
 package com.divar.create_ads
 
+import android.Manifest
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +25,7 @@ import com.divar.ui.core.ui_message.UiMessageScreen
 import com.divar.ui.extension.baseModifier
 import com.divar.ui.them.AppTheme
 import com.himanshoe.pluck.ui.Pluck
+import com.himanshoe.pluck.ui.permission.Permission
 
 @Composable
 fun CreateAdsScreen(
@@ -55,6 +57,12 @@ fun CreateAdsScreen(
         Pluck(onPhotoSelected = {
             vm.onTriggerEvent(CreateAdsUiEvent.OmImagePicked(it.map { it1 -> it1.uri }))
         })
+//        Permission(
+//            permissions = uiState.permissions,
+//            goToAppSettings = {}
+//        ) {
+//
+//        }
     }
 
     UiMessageScreen(shared = vm.uiMessage)

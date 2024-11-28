@@ -16,7 +16,9 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddPhotoAlternate
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -31,6 +33,7 @@ import com.divar.create_ads.OnAction
 import com.divar.domain.model.ads.CreateAdsParam
 import com.divar.ui.R
 import com.divar.ui.core.filter_item.FilterItem
+import com.divar.ui.core.input.AppTextField
 import com.divar.ui.core.text.BodyLargeText
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.core.text.LabelMediumText
@@ -110,10 +113,56 @@ fun Step1Content(
                         .fillMaxWidth()
                         .weight(1f),
                     path = s,
+                    imageVector = if (index == 2) Icons.Default.AddPhotoAlternate else Icons.Default.Image,
                     onClick = { onAction(CreateAdsUiEvent.OnImageChooser(index)) }
                 )
             }
         }
+
+        BodyLargeText(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Start,
+            text = stringResource(id = R.string.title_of_ads)
+        )
+
+        LabelSmallText(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Start,
+            text = stringResource(id = R.string.ads_title_point),
+            color = AppTheme.colors.hintColor
+        )
+
+        AppTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = createAdsParam.title,
+            onValueChange = { onAction(CreateAdsUiEvent.OnTitleChanged(it)) },
+            hint = stringResource(id = R.string.ads_title_hint)
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        BodyLargeText(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Start,
+            text = stringResource(id = R.string.ads_description_title)
+        )
+
+        LabelSmallText(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Start,
+            text = stringResource(id = R.string.ads_description_point),
+            color = AppTheme.colors.hintColor
+        )
+
+        AppTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = createAdsParam.description,
+            minLines = 3,
+            onValueChange = { onAction(CreateAdsUiEvent.OnTitleChanged(it)) },
+            hint = stringResource(id = R.string.ads_description_hint)
+        )
+
+
     }
 }
 

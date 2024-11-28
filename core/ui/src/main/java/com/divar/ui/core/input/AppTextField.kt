@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.them.AppTheme
+import kotlin.math.min
 
 
 @Preview
@@ -47,8 +48,8 @@ fun AppTextField(
     value: String,
     onValueChange: (String) -> Unit,
     hint: String,
-    maxLines: Int = 1,
     minLines: Int = 1,
+    maxLines: Int = minLines,
     shape: CornerBasedShape = AppTheme.shapes.roundSmall,
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
         focusedTextColor = AppTheme.colors.primaryColor,

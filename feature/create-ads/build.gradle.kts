@@ -6,6 +6,5 @@ android {
 }
 
 dependencies {
-    implementation("com.himanshoe:pluck:1.0.0-RC2")
-
+    implementation(libs.pluck)
 }

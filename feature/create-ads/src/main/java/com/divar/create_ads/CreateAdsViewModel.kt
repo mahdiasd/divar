@@ -1,16 +1,37 @@
 package com.divar.create_ads
 
-import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import com.divar.domain.model.onFailure
+import com.divar.domain.model.onSuccess
+import com.divar.domain.usecase.category.GetCategoriesUseCase
+import com.divar.ui.model.UiMessage
 import com.divar.ui.viewmodel.BaseViewModel
 import com.divar.utils.findIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
-import okhttp3.internal.toImmutableList
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateAdsViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle?,
+    private val getCategoriesUseCase: GetCategoriesUseCase,
 ) : BaseViewModel<CreateAdsUiState, CreateAdsUiEvent>() {
+    init {
+        getCategories()
+    }
+
+    private fun getCategories() {
+        viewModelScope.launch {
+            getCategoriesUseCase.invoke().collect {
+                it.onSuccess { categories ->
+                    setState { currentState.copy(allCategories = categories.toImmutableList()) }
+                }.onFailure { apiError ->
+                    setUiMessage(UiMessage(stringValue = apiError.message))
+                }
+            }
+        }
+    }
+
 
     override fun createInitialState() = CreateAdsUiState()
 
@@ -62,6 +83,10 @@ class CreateAdsViewModel @Inject constructor(
                         }
                     }
                 }
+            }
+
+            is CreateAdsUiEvent.OnTitleChanged -> {
+                setState { copy(createAdsParam = createAdsParam.copy(title = event.text)) }
             }
         }
     }
