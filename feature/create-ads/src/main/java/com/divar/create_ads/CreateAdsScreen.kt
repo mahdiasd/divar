@@ -23,6 +23,7 @@ import com.divar.ui.core.button.AppButton
 import com.divar.ui.core.ui_message.UiMessageScreen
 import com.divar.ui.extension.baseModifier
 import com.divar.ui.them.AppTheme
+import com.himanshoe.pluck.ui.Pluck
 
 @Composable
 fun CreateAdsScreen(
@@ -50,6 +51,12 @@ fun CreateAdsScreen(
         )
     }
 
+    if (uiState.imageIndexChooser != null) {
+        Pluck(onPhotoSelected = {
+            vm.onTriggerEvent(CreateAdsUiEvent.OmImagePicked(it.map { it1 -> it1.uri }))
+        })
+    }
+
     UiMessageScreen(shared = vm.uiMessage)
 }
 
@@ -75,14 +82,18 @@ fun CreateAdsScreenContent(
         }
     ) {
         when (screenStep) {
-            ScreenStep.Step1 -> Step1Content(createAdsParam , onAction)
+            ScreenStep.Step1 -> Step1Content(
+                modifier = Modifier.padding(it),
+                createAdsParam = createAdsParam,
+                onAction = onAction
+            )
+
             ScreenStep.Step2 -> {}
         }
         Spacer(modifier = Modifier.padding(it))
     }
 
 }
-
 
 
 @Composable

@@ -2,6 +2,7 @@ package com.divar.create_ads.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,12 +33,19 @@ import com.divar.ui.R
 import com.divar.ui.core.filter_item.FilterItem
 import com.divar.ui.core.text.BodyLargeText
 import com.divar.ui.core.text.BodyMediumText
+import com.divar.ui.core.text.LabelMediumText
+import com.divar.ui.core.text.LabelSmallText
 import com.divar.ui.them.AppTheme
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun Step1Content(createAdsParam: CreateAdsParam, onAction: OnAction) {
+fun Step1Content(
+    modifier: Modifier,
+    createAdsParam: CreateAdsParam,
+    onAction: OnAction
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
             .verticalScroll(rememberScrollState()),
@@ -53,7 +61,7 @@ fun Step1Content(createAdsParam: CreateAdsParam, onAction: OnAction) {
         HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp),
+                .padding(vertical = 8.dp),
             thickness = 0.5.dp
         )
 
@@ -71,8 +79,10 @@ fun Step1Content(createAdsParam: CreateAdsParam, onAction: OnAction) {
         }
 
         HorizontalDivider(
-            thickness = 0.5.dp,
-            color = AppTheme.colors.hintColor
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            thickness = 0.5.dp
         )
 
         BodyLargeText(
@@ -81,28 +91,26 @@ fun Step1Content(createAdsParam: CreateAdsParam, onAction: OnAction) {
             text = stringResource(id = R.string.image_of_ads)
         )
 
-        BodyMediumText(
+        LabelSmallText(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Start,
             text = stringResource(id = R.string.add_image_point),
             color = AppTheme.colors.hintColor
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        LazyHorizontalGrid(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(230.dp),
-            rows = GridCells.Adaptive(minSize = 100.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            maxItemsInEachRow = 3,
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(createAdsParam.images.size)
-            { index ->
+            createAdsParam.images.forEachIndexed { index, s ->
                 ImageItem(
-                    path = createAdsParam.images[index],
-                    onClick = {}
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    path = s,
+                    onClick = { onAction(CreateAdsUiEvent.OnImageChooser(index)) }
                 )
             }
         }
@@ -113,7 +121,10 @@ fun Step1Content(createAdsParam: CreateAdsParam, onAction: OnAction) {
 @Composable
 private fun Preview() {
     AppTheme {
-        Step1Content(createAdsParam = CreateAdsParam()) {
+        Step1Content(
+            modifier = Modifier.fillMaxWidth(),
+            createAdsParam = CreateAdsParam()
+        ) {
 
         }
     }
