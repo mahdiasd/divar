@@ -1,6 +1,8 @@
 package com.divar.create_ads
 
-import android.Manifest
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,9 +26,13 @@ import com.divar.ui.category.CategoryDialog
 import com.divar.ui.core.button.AppButton
 import com.divar.ui.core.ui_message.UiMessageScreen
 import com.divar.ui.extension.baseModifier
+import com.divar.ui.parameter_dialog.ParameterDialog
 import com.divar.ui.them.AppTheme
-import com.himanshoe.pluck.ui.Pluck
-import com.himanshoe.pluck.ui.permission.Permission
+import com.divar.utils.dLog
+import com.nareshchocha.filepickerlibrary.models.PickMediaConfig
+import com.nareshchocha.filepickerlibrary.models.PickMediaType
+import com.nareshchocha.filepickerlibrary.ui.FilePicker
+import com.nareshchocha.filepickerlibrary.utilities.appConst.Const
 
 @Composable
 fun CreateAdsScreen(
@@ -33,6 +40,15 @@ fun CreateAdsScreen(
     onBack: () -> Unit,
 ) {
     val uiState = vm.uiState.collectAsState().value
+
+    val context = LocalContext.current
+    val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            val filePaths = it.data?.getStringArrayListExtra(Const.BundleExtras.FILE_PATH_LIST) ?: listOf()
+            vm.onTriggerEvent(CreateAdsUiEvent.OmImagePicked(filePaths))
+        }
+        vm.onTriggerEvent(CreateAdsUiEvent.DismissDialog)
+    }
 
     CreateAdsScreenContent(
         modifier = Modifier.baseModifier(0.dp),
@@ -54,15 +70,26 @@ fun CreateAdsScreen(
     }
 
     if (uiState.imageIndexChooser != null) {
-        Pluck(onPhotoSelected = {
-            vm.onTriggerEvent(CreateAdsUiEvent.OmImagePicked(it.map { it1 -> it1.uri }))
-        })
-//        Permission(
-//            permissions = uiState.permissions,
-//            goToAppSettings = {}
-//        ) {
-//
-//        }
+        pickMedia.launch(
+            FilePicker.Builder(context = context)
+                .addPickMedia(
+                    PickMediaConfig(
+                        mPickMediaType = PickMediaType.ImageOnly,
+                        maxFiles = 6,
+                        allowMultiple = true,
+                    )
+                )
+                .build()
+        )
+    }
+
+    if (uiState.showParameterDialog != null) {
+        ParameterDialog(
+            modifier = Modifier,
+            parameter = uiState.showParameterDialog,
+            onDismiss = { vm.onTriggerEvent(CreateAdsUiEvent.DismissDialog) },
+            onSelect = { vm.onTriggerEvent(CreateAdsUiEvent.OnAnswerToParameter(it)) }
+        )
     }
 
     UiMessageScreen(shared = vm.uiMessage)
@@ -90,11 +117,13 @@ fun CreateAdsScreenContent(
         }
     ) {
         when (screenStep) {
-            ScreenStep.Step1 -> Step1Content(
-                modifier = Modifier.padding(it),
-                createAdsParam = createAdsParam,
-                onAction = onAction
-            )
+            ScreenStep.Step1 -> {
+                Step1Content(
+                    modifier = Modifier.padding(it),
+                    createAdsParam = createAdsParam,
+                    onAction = onAction
+                )
+            }
 
             ScreenStep.Step2 -> {}
         }

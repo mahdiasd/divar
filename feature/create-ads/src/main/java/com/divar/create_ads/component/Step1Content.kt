@@ -59,7 +59,7 @@ fun Step1Content(
             modifier = Modifier.fillMaxWidth(),
             title = stringResource(id = R.string.category),
             value = createAdsParam.category?.name,
-            onClick = { onAction(CreateAdsUiEvent.DismissDialog) }
+            onClick = { onAction(CreateAdsUiEvent.ShowCategoryDialog) }
         )
         HorizontalDivider(
             modifier = Modifier
@@ -113,12 +113,14 @@ fun Step1Content(
                         .fillMaxWidth()
                         .weight(1f),
                     path = s,
-                    imageVector = if (index == 2) Icons.Default.AddPhotoAlternate else Icons.Default.Image,
+                    title = if (index == 0) R.string.add_image else R.string.image,
+                    imageVector = if (index == 0) Icons.Default.AddPhotoAlternate else Icons.Default.Image,
                     onClick = { onAction(CreateAdsUiEvent.OnImageChooser(index)) }
                 )
             }
         }
 
+        Spacer(modifier = Modifier.height(8.dp))
         BodyLargeText(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Start,
@@ -153,12 +155,13 @@ fun Step1Content(
             text = stringResource(id = R.string.ads_description_point),
             color = AppTheme.colors.hintColor
         )
+        Spacer(modifier = Modifier.height(8.dp))
 
         AppTextField(
             modifier = Modifier.fillMaxWidth(),
             value = createAdsParam.description,
             minLines = 3,
-            onValueChange = { onAction(CreateAdsUiEvent.OnTitleChanged(it)) },
+            onValueChange = { onAction(CreateAdsUiEvent.OnDescriptionChanged(it)) },
             hint = stringResource(id = R.string.ads_description_hint)
         )
 

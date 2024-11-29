@@ -3,7 +3,9 @@ package com.divar.create_ads
 import androidx.lifecycle.viewModelScope
 import com.divar.domain.model.onFailure
 import com.divar.domain.model.onSuccess
+import com.divar.domain.model.parameter.DataType
 import com.divar.domain.usecase.category.GetCategoriesUseCase
+import com.divar.domain.usecase.parameter.GetParametersUseCase
 import com.divar.ui.model.UiMessage
 import com.divar.ui.viewmodel.BaseViewModel
 import com.divar.utils.findIndex
@@ -15,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateAdsViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,
+    private val getParametersUseCase: GetParametersUseCase
 ) : BaseViewModel<CreateAdsUiState, CreateAdsUiEvent>() {
     init {
         getCategories()
@@ -38,15 +41,24 @@ class CreateAdsViewModel @Inject constructor(
     override fun onTriggerEvent(event: CreateAdsUiEvent) {
         when (event) {
             CreateAdsUiEvent.DismissDialog -> {
-                setState { copy(showCategoryDialog = false) }
+                setState { copy(showCategoryDialog = false, imageIndexChooser = null) }
             }
 
             CreateAdsUiEvent.OnNext -> {
+                when (currentState.screenStep) {
+                    ScreenStep.Step1 -> {
+                        if (step1Validate()) setState { copy(screenStep = ScreenStep.Step2) }
+                    }
 
+                    ScreenStep.Step2 -> {
+
+                    }
+                }
             }
 
             is CreateAdsUiEvent.OnSelectCategory -> {
                 setState { copy(createAdsParam = createAdsParam.copy(category = event.category)) }
+                getParameter()
             }
 
             CreateAdsUiEvent.ShowCategoryDialog -> {
@@ -58,11 +70,11 @@ class CreateAdsViewModel @Inject constructor(
             }
 
             is CreateAdsUiEvent.OmImagePicked -> {
-                if (event.uriList.size == 1 && !event.uriList.first().path.isNullOrEmpty()) {
+                if (event.pathList.size == 1) {
                     setState {
                         copy(
                             createAdsParam = createAdsParam.copy(images = currentState.createAdsParam.images.mapIndexed { index, s ->
-                                if (index == currentState.imageIndexChooser) event.uriList.first().path!!
+                                if (index == currentState.imageIndexChooser) event.pathList.first()
                                 else s
                             }.toImmutableList())
                         )
@@ -70,25 +82,109 @@ class CreateAdsViewModel @Inject constructor(
                 } else {
                     val temp = currentState.createAdsParam.images.toMutableList()
                     val filledIndexes: MutableList<Int> = mutableListOf()
-                    event.uriList.forEachIndexed { _, uri ->
+                    event.pathList.forEachIndexed { _, path ->
                         temp.findIndex { it.isEmpty() }?.let {
                             filledIndexes.add(it)
-                            temp[it] = uri.path ?: ""
+                            temp[it] = path
                         } ?: run {
                             temp.forEachIndexed { index, s ->
                                 if (index !in filledIndexes) {
-                                    temp[index] = uri.path ?: ""
+                                    temp[index] = path
                                 }
                             }
                         }
                     }
+                    setState { copy(createAdsParam = createAdsParam.copy(images = temp.toImmutableList())) }
                 }
             }
 
             is CreateAdsUiEvent.OnTitleChanged -> {
                 setState { copy(createAdsParam = createAdsParam.copy(title = event.text)) }
             }
+
+            is CreateAdsUiEvent.OnDescriptionChanged -> {
+                setState { copy(createAdsParam = createAdsParam.copy(description = event.text)) }
+            }
+
+            is CreateAdsUiEvent.OnNeighborhood -> TODO()
+            is CreateAdsUiEvent.OnPriceChanged -> {
+                setState { copy(createAdsParam = createAdsParam.copy(price = event.text)) }
+            }
+
+            is CreateAdsUiEvent.OnParameter -> {
+                when (event.parameter.dataType) {
+                    DataType.CheckBoxInput -> {
+                        setState {
+                            copy(
+                                parameters = parameters?.map {
+                                    if (it.id == event.parameter.id)
+                                        it.copy(answer = it.name)
+                                    else it
+                                }?.toImmutableList()
+                            )
+                        }
+                    }
+
+                    DataType.FixedOption -> {
+                        setState { copy(showParameterDialog = event.parameter) }
+                    }
+
+                    else -> {
+                        setState {
+                            copy(
+                                parameters = parameters?.map {
+                                    if (it.id == event.parameter.id)
+                                        event.parameter
+                                    else it
+                                }?.toImmutableList()
+
+                            )
+                        }
+                    }
+                }
+            }
+
+            is CreateAdsUiEvent.OnAnswerToParameter -> {
+                setState {
+                    copy(
+                        showParameterDialog = null,
+                        parameters = parameters?.map {
+                            if (it.id == event.parameter.id) event.parameter
+                            else it
+                        }?.toImmutableList()
+                    )
+                }
+            }
         }
+    }
+
+    private fun getParameter() {
+        viewModelScope.launch {
+            getParametersUseCase.invoke(currentState.createAdsParam.category!!.id).collect {
+                it.onSuccess {
+                    setState { copy(parameters = it.toImmutableList()) }
+                }.onFailure { apiError ->
+                    setState { copy(isLoading = false) }
+                    setUiMessage(UiMessage(stringValue = apiError.message))
+                }
+            }
+        }
+    }
+
+    private fun step1Validate(): Boolean {
+        currentState.createAdsParam.let {
+            if (it.category == null) {
+                setUiMessage(UiMessage(intValue = com.divar.ui.R.string.error_create_ads_select_category))
+                return false
+            } else if (it.title.isEmpty()) {
+                setUiMessage(UiMessage(intValue = com.divar.ui.R.string.error_create_ads_title))
+                return false
+            } else if (it.description.isEmpty()) {
+                setUiMessage(UiMessage(intValue = com.divar.ui.R.string.error_create_ads_description))
+                return false
+            }
+        }
+        return true
     }
 
 }

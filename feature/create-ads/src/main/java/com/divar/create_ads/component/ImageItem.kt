@@ -32,6 +32,7 @@ import com.divar.ui.extension.animateClickable
 import com.divar.ui.extension.dashedBorder
 import com.divar.ui.them.AppTheme
 import com.divar.utils.coilRounded
+import com.divar.utils.dLog
 
 @Composable
 fun ImageItem(
@@ -43,7 +44,7 @@ fun ImageItem(
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
-
+    path.dLog("ImageItem")
     if (path.isEmpty()) {
         Column(
             modifier = modifier

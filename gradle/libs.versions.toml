@@ -2,6 +2,7 @@
 agp = "8.5.2"
 androidxCoreSplashscreen = "1.0.1"
 coil-svg = "2.7.0"
+filepicker = "0.2.5"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
 
@@ -42,6 +43,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil-svg" }
+filepicker = { module = "io.github.chochanaresh:filepicker", version.ref = "filepicker" }
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 

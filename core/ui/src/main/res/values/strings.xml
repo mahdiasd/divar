@@ -69,4 +69,9 @@
     <string name="ads_description_title">توضیحات آگهی</string>
     <string name="ads_description_point">جزئیات و نکات جالب توجه آگهی خود را کامل و دقیق بنویسید. نوشتن شماره تماس در متن آگهی مجاز نیست. حتما به ساعات پاسخگویی خود اشاره کنید.</string>
 
+    <string name="error_create_ads_select_category">لطفا دسته بندی را انتخاب کنید.</string>
+
+    <string name="error_create_ads_title">عنوان آگهی ها را انتخاب کنید</string>
+    <string name="error_create_ads_description">توضیحاتی برای آگهی بنویسید.</string>
+
 </resources>

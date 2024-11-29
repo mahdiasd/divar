@@ -1,10 +1,11 @@
 package com.divar.create_ads
 
-import android.net.Uri
+import android.Manifest
 import android.os.Build
 import androidx.compose.runtime.Stable
 import com.divar.domain.model.ads.CreateAdsParam
 import com.divar.domain.model.category.Category
+import com.divar.domain.model.parameter.Parameter
 import com.divar.ui.extension.immutableListOf
 import com.divar.ui.viewmodel.UiEvent
 import com.divar.ui.viewmodel.UiState
@@ -22,8 +23,10 @@ data class CreateAdsUiState(
     val createAdsParam: CreateAdsParam = CreateAdsParam(),
 
     val imageIndexChooser: Int? = null,
-    val permissions: ImmutableList<String> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) listOf(android.Manifest.permission.READ_MEDIA_IMAGES).toImmutableList()
-    else listOf(android.Manifest.permission.READ_EXTERNAL_STORAGE).toImmutableList()
+    val parameters: List<Parameter>? = null,
+
+    val showParameterDialog: Parameter? = null,
+
 ) : UiState
 
 enum class ScreenStep { Step1, Step2 }
@@ -34,9 +37,17 @@ sealed class CreateAdsUiEvent : UiEvent {
     data object ShowCategoryDialog : CreateAdsUiEvent()
     data class OnSelectCategory(val category: Category) : CreateAdsUiEvent()
     data class OnImageChooser(val index: Int) : CreateAdsUiEvent()
-    data class OmImagePicked(val uriList: List<Uri>) : CreateAdsUiEvent()
+    data class OmImagePicked(val pathList: List<String>) : CreateAdsUiEvent()
 
     data class OnTitleChanged(val text: String) : CreateAdsUiEvent()
+    data class OnDescriptionChanged(val text: String) : CreateAdsUiEvent()
+
+    data object OnNeighborhood : CreateAdsUiEvent()
+    data class OnPriceChanged(val text: String) : CreateAdsUiEvent()
+
+    data class OnParameter(val parameter: Parameter) : CreateAdsUiEvent()
+    data class OnAnswerToParameter(val parameter: Parameter) : CreateAdsUiEvent()
+
 }
 
 typealias OnAction = (CreateAdsUiEvent) -> Unit
