@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,7 +33,6 @@ import com.divar.ui.extension.toPrice
 import com.divar.ui.them.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun Step2Content(
     modifier: Modifier,
@@ -40,7 +41,7 @@ fun Step2Content(
     parameters: ImmutableList<Parameter>
 ) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
@@ -62,7 +63,7 @@ fun Step2Content(
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically)
+                verticalArrangement = Arrangement.spacedBy(24.dp, alignment = Alignment.CenterVertically)
             ) {
                 BodyMediumText(
                     modifier = Modifier.fillMaxWidth(),
@@ -72,11 +73,12 @@ fun Step2Content(
 
                 AppTextField(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
-                    value = createAdsParam.price.toPrice(),
+                        .fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    value = createAdsParam.price,
                     onValueChange = { onAction(CreateAdsUiEvent.OnPriceChanged(it)) },
-                    hint = stringResource(id = R.string.to)
+                    isPrice = true,
+                    hint = stringResource(id = R.string.zero)
                 )
 
                 HorizontalDivider(
@@ -116,7 +118,7 @@ fun Step2Content(
                         title = parameter.name,
                         value = parameter.answer ?: "",
                         onChangeText = {
-                            onAction(CreateAdsUiEvent.OnParameter(parameter))
+                            onAction(CreateAdsUiEvent.OnParameter(parameter.copy(answer = it)))
                         },
                     )
                 }

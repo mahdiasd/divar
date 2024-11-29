@@ -4,6 +4,7 @@ import com.divar.data.mapper.ads.toDomain
 import com.divar.data.utils.safeCall
 import com.divar.domain.model.DataResult
 import com.divar.domain.model.ads.Ads
+import com.divar.domain.model.ads.CreateAdsParam
 import com.divar.domain.model.onFailure
 import com.divar.domain.model.onSuccess
 import com.divar.domain.repository.ads.AdsRepository
@@ -23,6 +24,10 @@ class AdsRepositoryImpl @Inject constructor(
         }.onFailure {
             emit(DataResult.Failure(it))
         }
+    }
+
+    override suspend fun createAds(createAdsParam: CreateAdsParam): Flow<DataResult<Unit>> {
+        TODO("Not yet implemented")
     }
 
 

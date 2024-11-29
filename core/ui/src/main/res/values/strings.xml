@@ -73,5 +73,6 @@
 
     <string name="error_create_ads_title">عنوان آگهی ها را انتخاب کنید</string>
     <string name="error_create_ads_description">توضیحاتی برای آگهی بنویسید.</string>
+    <string name="zero">0</string>
 
 </resources>

@@ -1,7 +1,5 @@
 package com.divar.create_ads
 
-import android.Manifest
-import android.os.Build
 import androidx.compose.runtime.Stable
 import com.divar.domain.model.ads.CreateAdsParam
 import com.divar.domain.model.category.Category
@@ -10,11 +8,11 @@ import com.divar.ui.extension.immutableListOf
 import com.divar.ui.viewmodel.UiEvent
 import com.divar.ui.viewmodel.UiState
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 
 @Stable
 data class CreateAdsUiState(
     val isLoading: Boolean = true,
+    val adsCreated: Boolean = false,
     val screenStep: ScreenStep = ScreenStep.Step1,
 
     val showCategoryDialog: Boolean = false,
@@ -23,11 +21,10 @@ data class CreateAdsUiState(
     val createAdsParam: CreateAdsParam = CreateAdsParam(),
 
     val imageIndexChooser: Int? = null,
-    val parameters: List<Parameter>? = null,
-
+    val parameters: ImmutableList<Parameter> = immutableListOf(),
     val showParameterDialog: Parameter? = null,
 
-) : UiState
+    ) : UiState
 
 enum class ScreenStep { Step1, Step2 }
 

@@ -20,19 +20,22 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.divar.create_ads.component.CreateAdsToolbar
 import com.divar.create_ads.component.Step1Content
+import com.divar.create_ads.component.Step2Content
 import com.divar.domain.model.ads.CreateAdsParam
+import com.divar.domain.model.parameter.Parameter
 import com.divar.ui.R
 import com.divar.ui.category.CategoryDialog
 import com.divar.ui.core.button.AppButton
 import com.divar.ui.core.ui_message.UiMessageScreen
 import com.divar.ui.extension.baseModifier
+import com.divar.ui.extension.immutableListOf
 import com.divar.ui.parameter_dialog.ParameterDialog
 import com.divar.ui.them.AppTheme
-import com.divar.utils.dLog
 import com.nareshchocha.filepickerlibrary.models.PickMediaConfig
 import com.nareshchocha.filepickerlibrary.models.PickMediaType
 import com.nareshchocha.filepickerlibrary.ui.FilePicker
 import com.nareshchocha.filepickerlibrary.utilities.appConst.Const
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun CreateAdsScreen(
@@ -55,6 +58,7 @@ fun CreateAdsScreen(
         onAction = { vm.onTriggerEvent(it) },
         screenStep = uiState.screenStep,
         createAdsParam = uiState.createAdsParam,
+        parameters = uiState.parameters,
         onClose = onBack
     )
 
@@ -101,6 +105,7 @@ fun CreateAdsScreenContent(
     onAction: OnAction,
     screenStep: ScreenStep,
     createAdsParam: CreateAdsParam = CreateAdsParam(),
+    parameters: ImmutableList<Parameter> = immutableListOf(),
     onClose: () -> Unit = {}
 ) {
     Scaffold(
@@ -125,7 +130,14 @@ fun CreateAdsScreenContent(
                 )
             }
 
-            ScreenStep.Step2 -> {}
+            ScreenStep.Step2 -> {
+                Step2Content(
+                    modifier = Modifier.padding(it),
+                    createAdsParam = createAdsParam,
+                    parameters = parameters,
+                    onAction = onAction
+                )
+            }
         }
         Spacer(modifier = Modifier.padding(it))
     }

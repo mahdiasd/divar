@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.divar.domain.model.onFailure
 import com.divar.domain.model.onSuccess
 import com.divar.domain.model.parameter.DataType
+import com.divar.domain.usecase.ads.CreateAdsUseCase
 import com.divar.domain.usecase.category.GetCategoriesUseCase
 import com.divar.domain.usecase.parameter.GetParametersUseCase
 import com.divar.ui.model.UiMessage
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateAdsViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val getParametersUseCase: GetParametersUseCase
+    private val getParametersUseCase: GetParametersUseCase,
+    private val createAdsUseCase: CreateAdsUseCase
 ) : BaseViewModel<CreateAdsUiState, CreateAdsUiEvent>() {
     init {
         getCategories()
@@ -35,8 +37,11 @@ class CreateAdsViewModel @Inject constructor(
         }
     }
 
-
     override fun createInitialState() = CreateAdsUiState()
+
+    private fun step2Validate(): Boolean {
+        return true
+    }
 
     override fun onTriggerEvent(event: CreateAdsUiEvent) {
         when (event) {
@@ -51,13 +56,15 @@ class CreateAdsViewModel @Inject constructor(
                     }
 
                     ScreenStep.Step2 -> {
-
+                        if (step2Validate()) {
+                            createAds()
+                        }
                     }
                 }
             }
 
             is CreateAdsUiEvent.OnSelectCategory -> {
-                setState { copy(createAdsParam = createAdsParam.copy(category = event.category)) }
+                setState { copy(createAdsParam = createAdsParam.copy(category = event.category), showCategoryDialog = false) }
                 getParameter()
             }
 
@@ -106,7 +113,10 @@ class CreateAdsViewModel @Inject constructor(
                 setState { copy(createAdsParam = createAdsParam.copy(description = event.text)) }
             }
 
-            is CreateAdsUiEvent.OnNeighborhood -> TODO()
+            is CreateAdsUiEvent.OnNeighborhood -> {
+
+            }
+
             is CreateAdsUiEvent.OnPriceChanged -> {
                 setState { copy(createAdsParam = createAdsParam.copy(price = event.text)) }
             }
@@ -116,11 +126,11 @@ class CreateAdsViewModel @Inject constructor(
                     DataType.CheckBoxInput -> {
                         setState {
                             copy(
-                                parameters = parameters?.map {
+                                parameters = parameters.map {
                                     if (it.id == event.parameter.id)
                                         it.copy(answer = it.name)
                                     else it
-                                }?.toImmutableList()
+                                }.toImmutableList()
                             )
                         }
                     }
@@ -132,12 +142,11 @@ class CreateAdsViewModel @Inject constructor(
                     else -> {
                         setState {
                             copy(
-                                parameters = parameters?.map {
+                                parameters = parameters.map {
                                     if (it.id == event.parameter.id)
                                         event.parameter
                                     else it
-                                }?.toImmutableList()
-
+                                }.toImmutableList()
                             )
                         }
                     }
@@ -148,15 +157,16 @@ class CreateAdsViewModel @Inject constructor(
                 setState {
                     copy(
                         showParameterDialog = null,
-                        parameters = parameters?.map {
+                        parameters = parameters.map {
                             if (it.id == event.parameter.id) event.parameter
                             else it
-                        }?.toImmutableList()
+                        }.toImmutableList()
                     )
                 }
             }
         }
     }
+
 
     private fun getParameter() {
         viewModelScope.launch {
@@ -185,6 +195,20 @@ class CreateAdsViewModel @Inject constructor(
             }
         }
         return true
+    }
+
+
+    private fun createAds() {
+        viewModelScope.launch {
+            createAdsUseCase.invoke(currentState.createAdsParam.copy(parameters = currentState.parameters)).collect {
+                it.onSuccess {
+                    setState { copy(adsCreated = true) }
+                }.onFailure { apiError ->
+                    setState { copy(isLoading = false) }
+                    setUiMessage(UiMessage(stringValue = apiError.message))
+                }
+            }
+        }
     }
 
 }
