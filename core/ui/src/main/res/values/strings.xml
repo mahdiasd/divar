@@ -52,5 +52,28 @@
     <string name="enter_password">رمز عبور را وارد کنید</string>
     <string name="enter_repeat_password">تکرار رمز عبور را وارد کنید!</string>
     <string name="password_repeat_not_same">پسورد و تکرار آن یکسان نیستند!</string>
+    <string name="insert_ads">ثبت آگهی</string>
+    <string name="next">بعدی</string>
+
+    <string name="add_image_point">افزودن عکس بازدید آگهی شما را تا سه برابر افزایش می دهد.</string>
+    <string name="ads_title_point">در عنوان آگهی به موارد مهم و چشمگیر اشاره کنید.</string>
+
+    <string name="ads_title_hint">عنوان آگهی خود را بنویسید (اجباری)</string>
+    <string name="ads_description_hint">توضیحات مربوط به آگهی را بنویسید (اجباری)</string>
+    <string name="create_ads_guide">راهنمای ثبت آگهی</string>
+    <string name="image_of_ads">عکس آگهی</string>
+    <string name="title_of_ads">عنوان آگهی</string>
+
+    <string name="image">عکس</string>
+    <string name="add_image">افزودن عکس</string>
+    <string name="ads_description_title">توضیحات آگهی</string>
+    <string name="ads_description_point">جزئیات و نکات جالب توجه آگهی خود را کامل و دقیق بنویسید. نوشتن شماره تماس در متن آگهی مجاز نیست. حتما به ساعات پاسخگویی خود اشاره کنید.</string>
+
+    <string name="error_create_ads_select_category">لطفا دسته بندی را انتخاب کنید.</string>
+
+    <string name="error_create_ads_title">عنوان آگهی ها را انتخاب کنید</string>
+    <string name="error_create_ads_description">توضیحاتی برای آگهی بنویسید.</string>
+    <string name="zero">0</string>
+    <string name="ads_created_successful">آگهی شما با موفقیت ارسال شد و پس از تایید نمایش داده خواهد شد.</string>
 
 </resources>

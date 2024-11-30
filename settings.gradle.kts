@@ -17,6 +17,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://jitpack.io")
+
     }
 }
 
@@ -41,3 +43,4 @@ include(":feature:ads")
 include(":feature:filter")
 include(":feature:ads-detail")
 include(":feature:auth")
+include(":feature:create-ads")

@@ -20,3 +20,13 @@ inline fun <reified T> String?.fromJson(): T? {
     return if (this.isNullOrEmpty()) return null
     else json.decodeFromString(this)
 }
+
+
+public inline fun <T> Iterable<T>.findIndex(predicate: (T) -> Boolean): Int? {
+    this.forEachIndexed { index, t ->
+        if (predicate(t)) {
+            return index
+        }
+    }
+    return null
+}

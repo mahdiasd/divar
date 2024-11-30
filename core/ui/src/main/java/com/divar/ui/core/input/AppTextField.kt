@@ -14,15 +14,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.divar.ui.core.text.BodyMediumText
+import com.divar.ui.extension.toPrice
 import com.divar.ui.them.AppTheme
+import java.text.NumberFormat
+import java.util.Locale
 
 
 @Preview
@@ -41,14 +47,32 @@ private fun TextFieldIconPrev() {
     }
 }
 
+class NumberCommaTransformation : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        return TransformedText(
+            text = AnnotatedString(text.text.toPrice()),
+            offsetMapping = object : OffsetMapping {
+                override fun originalToTransformed(offset: Int): Int {
+                    return text.text.toPrice().length
+                }
+
+                override fun transformedToOriginal(offset: Int): Int {
+                    return text.length
+                }
+            }
+        )
+    }
+}
+
+
 @Composable
 fun AppTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     hint: String,
-    maxLines: Int = 1,
     minLines: Int = 1,
+    maxLines: Int = minLines,
     shape: CornerBasedShape = AppTheme.shapes.roundSmall,
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
         focusedTextColor = AppTheme.colors.primaryColor,
@@ -67,13 +91,15 @@ fun AppTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     readOnly: Boolean = false,
     textAlign: TextAlign = TextAlign.Start,
-    actionNext: Boolean = maxLines == 1
+    actionNext: Boolean = maxLines == 1,
+    isPrice: Boolean = false
 ) {
 
 
     OutlinedTextField(
         modifier = modifier,
         value = value,
+        visualTransformation = if (isPrice) NumberCommaTransformation() else VisualTransformation.None,
         shape = shape,
         onValueChange = onValueChange,
         maxLines = maxLines,

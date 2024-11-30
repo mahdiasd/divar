@@ -60,3 +60,9 @@ data class ServiceUnavailableError(
     override val httpStatus: Int,
     override val message: String = "سرویس فعلاً خوابیده، بعداً بیا."
 ) : ApiError
+
+data class NullRequestBody(
+    override val httpStatus: Int = -1,
+    override val message: String = "خطا در پردازش اطلاعات!"
+) : ApiError
+

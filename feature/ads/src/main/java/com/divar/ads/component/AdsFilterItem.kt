@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -15,16 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.divar.ads.R
 import com.divar.ui.core.text.LabelMediumText
 import com.divar.ui.extension.animateClickable
 import com.divar.ui.them.AppTheme
 
 @Composable
-fun FilterItem(
+fun AdsFilterItem(
     modifier: Modifier = Modifier,
     title: String,
     icon: Int? = null,
@@ -84,7 +81,7 @@ fun FilterItem(
 @Composable
 private fun Preview() {
     AppTheme {
-        FilterItem(
+        AdsFilterItem(
             title = "دسته بندی",
             icon = com.divar.ui.R.drawable.ic_category
         ) {
@@ -97,7 +94,7 @@ private fun Preview() {
 @Composable
 private fun PreviewSelected() {
     AppTheme {
-        FilterItem(
+        AdsFilterItem(
             title = "دسته بندی",
             isVisibleClose = true,
             icon = com.divar.ui.R.drawable.ic_category

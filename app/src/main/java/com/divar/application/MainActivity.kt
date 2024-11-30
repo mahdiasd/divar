@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.divar.application.navigation.AppNavigation
 import com.divar.auth.AuthScreen
+import com.divar.create_ads.CreateAdsScreen
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.core.text.LabelMediumText
 import com.divar.ui.core.text.TitleLargeText
@@ -53,6 +54,7 @@ class MainActivity : ComponentActivity() {
             }
             AppTheme {
                 AppNavigation()
+//                CreateAdsScreen {}
             }
         }
     }

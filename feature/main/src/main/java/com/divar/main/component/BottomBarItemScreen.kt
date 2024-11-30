@@ -30,14 +30,17 @@ fun BottomBarItemScreen(
     onAction: OnAction
 ) {
     NavigationBar(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .height(55.dp),
         containerColor = AppTheme.colors.itemColor
     ) {
         bottomBarItems.forEachIndexed { index, bottomBarItem ->
             NavigationBarItem(
                 selected = index == selectedIndex,
-                onClick = { onAction(MainUiEvent.OnChangeTab(index)) },
+                onClick = {
+                    onAction(MainUiEvent.OnChangeTab(index))
+                },
                 label = { LabelSmallText(text = stringResource(id = bottomBarItem.title)) },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = AppTheme.colors.primaryColor,
