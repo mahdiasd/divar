@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -43,6 +44,9 @@ fun CreateAdsScreen(
     onBack: () -> Unit,
 ) {
     val uiState = vm.uiState.collectAsState().value
+    LaunchedEffect(key1 = uiState.adsCreated) {
+        if (uiState.adsCreated) onBack()
+    }
 
     val context = LocalContext.current
     val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -59,6 +63,7 @@ fun CreateAdsScreen(
         screenStep = uiState.screenStep,
         createAdsParam = uiState.createAdsParam,
         parameters = uiState.parameters,
+        isLoading = uiState.isLoading,
         onClose = onBack
     )
 
@@ -106,6 +111,7 @@ fun CreateAdsScreenContent(
     screenStep: ScreenStep,
     createAdsParam: CreateAdsParam = CreateAdsParam(),
     parameters: ImmutableList<Parameter> = immutableListOf(),
+    isLoading: Boolean = false,
     onClose: () -> Unit = {}
 ) {
     Scaffold(
@@ -118,7 +124,10 @@ fun CreateAdsScreenContent(
             )
         },
         bottomBar = {
-            BottomBar(onAction = onAction)
+            BottomBar(
+                onAction = onAction,
+                isLoading = isLoading
+            )
         }
     ) {
         when (screenStep) {
@@ -146,7 +155,7 @@ fun CreateAdsScreenContent(
 
 
 @Composable
-fun BottomBar(onAction: OnAction) {
+fun BottomBar(onAction: OnAction, isLoading: Boolean) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -158,6 +167,7 @@ fun BottomBar(onAction: OnAction) {
                 .height(55.dp)
                 .width(180.dp),
             text = R.string.next,
+            isLoading = isLoading,
             onClick = {
                 onAction(CreateAdsUiEvent.OnNext)
             }

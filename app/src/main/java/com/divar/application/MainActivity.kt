@@ -53,10 +53,8 @@ class MainActivity : ComponentActivity() {
                 )
             }
             AppTheme {
-//                AppNavigation()
-                CreateAdsScreen {
-
-                }
+                AppNavigation()
+//                CreateAdsScreen {}
             }
         }
     }

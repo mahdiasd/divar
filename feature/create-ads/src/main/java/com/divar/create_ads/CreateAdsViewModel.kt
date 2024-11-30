@@ -7,11 +7,15 @@ import com.divar.domain.model.parameter.DataType
 import com.divar.domain.usecase.ads.CreateAdsUseCase
 import com.divar.domain.usecase.category.GetCategoriesUseCase
 import com.divar.domain.usecase.parameter.GetParametersUseCase
+import com.divar.ui.R
+import com.divar.ui.model.MessageStatus
+import com.divar.ui.model.MessageType
 import com.divar.ui.model.UiMessage
 import com.divar.ui.viewmodel.BaseViewModel
 import com.divar.utils.findIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -46,7 +50,13 @@ class CreateAdsViewModel @Inject constructor(
     override fun onTriggerEvent(event: CreateAdsUiEvent) {
         when (event) {
             CreateAdsUiEvent.DismissDialog -> {
-                setState { copy(showCategoryDialog = false, imageIndexChooser = null) }
+                setState {
+                    copy(
+                        showCategoryDialog = false,
+                        imageIndexChooser = null,
+                        showParameterDialog = null
+                    )
+                }
             }
 
             CreateAdsUiEvent.OnNext -> {
@@ -167,7 +177,6 @@ class CreateAdsViewModel @Inject constructor(
         }
     }
 
-
     private fun getParameter() {
         viewModelScope.launch {
             getParametersUseCase.invoke(currentState.createAdsParam.category!!.id).collect {
@@ -199,12 +208,21 @@ class CreateAdsViewModel @Inject constructor(
 
 
     private fun createAds() {
+        setState { copy(isLoading = true) }
         viewModelScope.launch {
             createAdsUseCase.invoke(currentState.createAdsParam.copy(parameters = currentState.parameters)).collect {
+                setState { copy(isLoading = false) }
                 it.onSuccess {
-                    setState { copy(adsCreated = true) }
+                    setUiMessage(
+                        UiMessage(
+                            intValue = R.string.ads_created_successful,
+                            messageType = MessageType.System,
+                            status = MessageStatus.Success
+                        )
+                    )
+                    delay(2 * 1000)
+                    setState { copy(adsCreated = true, isLoading = false) }
                 }.onFailure { apiError ->
-                    setState { copy(isLoading = false) }
                     setUiMessage(UiMessage(stringValue = apiError.message))
                 }
             }

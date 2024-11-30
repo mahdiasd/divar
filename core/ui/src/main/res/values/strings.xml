@@ -74,5 +74,6 @@
     <string name="error_create_ads_title">عنوان آگهی ها را انتخاب کنید</string>
     <string name="error_create_ads_description">توضیحاتی برای آگهی بنویسید.</string>
     <string name="zero">0</string>
+    <string name="ads_created_successful">آگهی شما با موفقیت ارسال شد و پس از تایید نمایش داده خواهد شد.</string>
 
 </resources>
