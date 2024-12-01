@@ -6,6 +6,8 @@ import com.divar.domain.model.onSuccess
 import com.divar.domain.model.parameter.DataType
 import com.divar.domain.usecase.ads.CreateAdsUseCase
 import com.divar.domain.usecase.category.GetCategoriesUseCase
+import com.divar.domain.usecase.location.GetNeighborhoodUseCase
+import com.divar.domain.usecase.location.SaveNeighborhoodUseCase
 import com.divar.domain.usecase.parameter.GetParametersUseCase
 import com.divar.ui.R
 import com.divar.ui.model.MessageStatus
@@ -23,7 +25,8 @@ import javax.inject.Inject
 class CreateAdsViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,
     private val getParametersUseCase: GetParametersUseCase,
-    private val createAdsUseCase: CreateAdsUseCase
+    private val createAdsUseCase: CreateAdsUseCase,
+    private val getNeighborhoodUseCase: GetNeighborhoodUseCase
 ) : BaseViewModel<CreateAdsUiState, CreateAdsUiEvent>() {
     init {
         getCategories()
@@ -124,7 +127,11 @@ class CreateAdsViewModel @Inject constructor(
             }
 
             is CreateAdsUiEvent.OnNeighborhood -> {
-
+                viewModelScope.launch {
+                    setState { copy(toNeighborhood = true) }
+                    delay(2000)
+                    setState { copy(toNeighborhood = false) }
+                }
             }
 
             is CreateAdsUiEvent.OnPriceChanged -> {
@@ -172,6 +179,21 @@ class CreateAdsViewModel @Inject constructor(
                             else it
                         }.toImmutableList()
                     )
+                }
+            }
+
+            CreateAdsUiEvent.CheckNeighborhood -> {
+                getNeighborhood()
+            }
+        }
+    }
+
+    private fun getNeighborhood() {
+        viewModelScope.launch {
+            getNeighborhoodUseCase.invoke().collect {
+                it.onSuccess {
+                    setState { copy(createAdsParam = createAdsParam.copy(neighborhood = it)) }
+                }.onFailure { _ ->
                 }
             }
         }

@@ -7,6 +7,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.divar.domain.fake_data.FakeData
 import com.divar.domain.model.location.City
+import com.divar.domain.model.location.Neighborhood
 import com.divar.ui.core.text.BodyMediumText
 import com.divar.ui.extension.animateClickable
 import com.divar.ui.them.AppTheme
@@ -21,6 +22,19 @@ fun CityItem(
     BodyMediumText(
         modifier = Modifier.fillMaxWidth().animateClickable(onClick),
         text = city.name,
+        textAlign = TextAlign.Start
+    )
+}
+
+@Composable
+fun NeighborhoodItem(
+    modifier: Modifier = Modifier,
+    neighborhood: Neighborhood,
+    onClick: () -> Unit
+) {
+    BodyMediumText(
+        modifier = Modifier.fillMaxWidth().animateClickable(onClick),
+        text = neighborhood.name,
         textAlign = TextAlign.Start
     )
 }

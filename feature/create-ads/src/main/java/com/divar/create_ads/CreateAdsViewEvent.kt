@@ -3,6 +3,7 @@ package com.divar.create_ads
 import androidx.compose.runtime.Stable
 import com.divar.domain.model.ads.CreateAdsParam
 import com.divar.domain.model.category.Category
+import com.divar.domain.model.location.Neighborhood
 import com.divar.domain.model.parameter.Parameter
 import com.divar.ui.extension.immutableListOf
 import com.divar.ui.viewmodel.UiEvent
@@ -11,7 +12,7 @@ import kotlinx.collections.immutable.ImmutableList
 
 @Stable
 data class CreateAdsUiState(
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
     val adsCreated: Boolean = false,
     val screenStep: ScreenStep = ScreenStep.Step1,
 
@@ -19,6 +20,8 @@ data class CreateAdsUiState(
     val allCategories: ImmutableList<Category> = immutableListOf(),
 
     val createAdsParam: CreateAdsParam = CreateAdsParam(),
+
+    val toNeighborhood : Boolean = false,
 
     val imageIndexChooser: Int? = null,
     val parameters: ImmutableList<Parameter> = immutableListOf(),
@@ -40,6 +43,7 @@ sealed class CreateAdsUiEvent : UiEvent {
     data class OnDescriptionChanged(val text: String) : CreateAdsUiEvent()
 
     data object OnNeighborhood : CreateAdsUiEvent()
+    data object CheckNeighborhood : CreateAdsUiEvent()
     data class OnPriceChanged(val text: String) : CreateAdsUiEvent()
 
     data class OnParameter(val parameter: Parameter) : CreateAdsUiEvent()

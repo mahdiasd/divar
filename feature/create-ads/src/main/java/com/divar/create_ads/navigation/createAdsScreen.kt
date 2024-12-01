@@ -8,11 +8,12 @@ import com.divar.create_ads.CreateAdsScreen
 const val createAdsRoute = "create_ads_route"
 fun NavGraphBuilder.createAdsScreen(
     onBack: () -> Unit,
+    onLocation: () -> Unit,
 ) {
     composable(
         route = createAdsRoute,
     ) {
-        CreateAdsScreen(onBack = onBack)
+        CreateAdsScreen(onBack = onBack, onLocation = onLocation)
     }
 }
 

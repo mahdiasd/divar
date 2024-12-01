@@ -32,6 +32,7 @@ import com.divar.ui.extension.baseModifier
 import com.divar.ui.extension.immutableListOf
 import com.divar.ui.parameter_dialog.ParameterDialog
 import com.divar.ui.them.AppTheme
+import com.divar.utils.OnResume
 import com.nareshchocha.filepickerlibrary.models.PickMediaConfig
 import com.nareshchocha.filepickerlibrary.models.PickMediaType
 import com.nareshchocha.filepickerlibrary.ui.FilePicker
@@ -42,10 +43,18 @@ import kotlinx.collections.immutable.ImmutableList
 fun CreateAdsScreen(
     vm: CreateAdsViewModel = hiltViewModel(),
     onBack: () -> Unit,
+    onLocation: () -> Unit,
 ) {
     val uiState = vm.uiState.collectAsState().value
     LaunchedEffect(key1 = uiState.adsCreated) {
         if (uiState.adsCreated) onBack()
+    }
+    LaunchedEffect(key1 = uiState.toNeighborhood) {
+        if (uiState.toNeighborhood) onLocation()
+    }
+
+    OnResume {
+        vm.onTriggerEvent(CreateAdsUiEvent.CheckNeighborhood)
     }
 
     val context = LocalContext.current

@@ -37,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.divar.domain.fake_data.FakeData
 import com.divar.domain.model.location.City
 import com.divar.location.component.CityItem
+import com.divar.location.component.NeighborhoodItem
 import com.divar.ui.R
 import com.divar.ui.core.input.AppTextField
 import com.divar.ui.core.list.SwipeList
@@ -51,7 +52,8 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 fun LocationScreen(
     vm: LocationViewModel = hiltViewModel(),
-    onMoveToMain: () -> Unit
+    onMoveToMain: () -> Unit,
+    onBack: () -> Unit
 ) {
     val uiState = vm.uiState.collectAsState().value
 
@@ -60,11 +62,18 @@ fun LocationScreen(
             onMoveToMain()
         }
     }
+    LaunchedEffect(key1 = uiState.onBack) {
+        if (uiState.onBack) {
+            onBack()
+        }
+    }
+
     LocationScreenContent(
         modifier = Modifier.baseModifier(padding = 0.dp),
         cities = uiState.cities,
         searchText = uiState.searchText,
         isRefreshing = uiState.isLoading,
+        selectedCity = uiState.selectedCity,
         onAction = { vm.onTriggerEvent(it) }
     )
 
@@ -77,6 +86,7 @@ fun LocationScreenContent(
     modifier: Modifier = Modifier,
     isRefreshing: Boolean = false,
     cities: ImmutableList<City>?,
+    selectedCity: City? = null,
     searchText: String,
     onAction: OnAction
 ) {
@@ -146,32 +156,59 @@ fun LocationScreenContent(
                 )
             }
         }
-
-
-        SwipeList(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            isRefreshing = isRefreshing,
-            isLoadMore = false,
-            listSize = cities?.size,
-            onRefresh = { onAction(LocationUiEvent.OnRefresh) },
-            onLoadMore = { }
-        ) { index ->
-            cities?.get(index)?.let { city ->
-                CityItem(
-                    city = city,
-                    onClick = { onAction(LocationUiEvent.OnCity(city)) }
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                if (index != cities.size - 1) {
-                    HorizontalDivider(
-                        modifier = Modifier.fillMaxWidth(),
-                        thickness = 0.5.dp
+        selectedCity?.let {
+            SwipeList(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                isRefreshing = isRefreshing,
+                isLoadMore = false,
+                listSize = it.neighborhoods?.size,
+                onRefresh = { onAction(LocationUiEvent.OnRefresh) },
+                onLoadMore = { }
+            ) { index ->
+                it.neighborhoods?.get(index)?.let { neighborhodd ->
+                    NeighborhoodItem(
+                        neighborhood = neighborhodd,
+                        onClick = { onAction(LocationUiEvent.OnNeighborhood(neighborhodd)) }
                     )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    if (!it.neighborhoods.isNullOrEmpty() && index != it.neighborhoods!!.size - 1) {
+                        HorizontalDivider(
+                            modifier = Modifier.fillMaxWidth(),
+                            thickness = 0.5.dp
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
-                Spacer(modifier = Modifier.height(16.dp))
             }
+        } ?: run {
+            SwipeList(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                isRefreshing = isRefreshing,
+                isLoadMore = false,
+                listSize = cities?.size,
+                onRefresh = { onAction(LocationUiEvent.OnRefresh) },
+                onLoadMore = { }
+            ) { index ->
+                cities?.get(index)?.let { city ->
+                    CityItem(
+                        city = city,
+                        onClick = { onAction(LocationUiEvent.OnCity(city)) }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    if (index != cities.size - 1) {
+                        HorizontalDivider(
+                            modifier = Modifier.fillMaxWidth(),
+                            thickness = 0.5.dp
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+            }
+
         }
     }
 

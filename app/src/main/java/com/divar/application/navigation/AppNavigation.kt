@@ -14,6 +14,7 @@ import com.divar.create_ads.navigation.createAdsScreen
 import com.divar.create_ads.navigation.navigateToCreateAds
 import com.divar.domain.model.category.Category
 import com.divar.domain.model.filter.AdsFilter
+import com.divar.domain.model.location.LocationScreenType
 import com.divar.filter.navigation.filterScreen
 import com.divar.filter.navigation.navigateToFilter
 import com.divar.location.navigation.locationScreen
@@ -44,7 +45,7 @@ fun AppNavigation() {
                 rootNavController.runWithLifecycleAware { rootNavController.navigateToMain() }
             },
             onMoveToLocation = {
-                rootNavController.runWithLifecycleAware { rootNavController.navigateToLocation() }
+                rootNavController.runWithLifecycleAware { rootNavController.navigateToLocation(LocationScreenType.FromLogin) }
             }
         )
 
@@ -99,6 +100,9 @@ fun AppNavigation() {
         )
 
         locationScreen(
+            onBack = {
+                rootNavController.popBackStack()
+            },
             onMoveToMain = {
                 rootNavController.runWithLifecycleAware { rootNavController.navigateToMain() }
             }
@@ -134,9 +138,13 @@ fun AppNavigation() {
             rootNavController.navigateToMain()
         })
 
-        createAdsScreen(onBack = {
-            rootNavController.runWithLifecycleAware { popBackStack() }
-        })
+        createAdsScreen(
+            onLocation = {
+                rootNavController.runWithLifecycleAware { navigateToLocation(LocationScreenType.FromCreateAds) }
+            },
+            onBack = {
+                rootNavController.runWithLifecycleAware { popBackStack() }
+            })
     }
 
 }
