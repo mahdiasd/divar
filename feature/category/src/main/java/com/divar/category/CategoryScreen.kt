@@ -111,7 +111,7 @@ fun CategoryScreenContent(
         SwipeList(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(0.dp),
+                .padding(16.dp),
             isRefreshing = isRefreshing,
             isLoadMore = isLoadMore,
             listSize = list?.size,
@@ -124,9 +124,9 @@ fun CategoryScreenContent(
                     category = this,
                     onClick = { onAction(CategoryUiEvent.OnCategorySelected(this)) }
                 )
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 HorizontalDivider()
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

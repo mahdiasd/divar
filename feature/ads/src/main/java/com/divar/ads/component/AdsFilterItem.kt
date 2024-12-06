@@ -39,7 +39,7 @@ fun AdsFilterItem(
                 width = 1.dp,
                 shape = AppTheme.shapes.roundLarge
             )
-            .padding(horizontal = 12.dp, vertical = 4.dp),
+            .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally)
     ) {
@@ -58,7 +58,7 @@ fun AdsFilterItem(
         }
 
         LabelMediumText(
-            modifier = Modifier.padding(top = 4.dp),
+            modifier = Modifier,
             text = title,
             color = if (isSelected) AppTheme.colors.primaryColor else AppTheme.colors.titleColor
         )
